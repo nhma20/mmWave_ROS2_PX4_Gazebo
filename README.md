@@ -28,6 +28,7 @@ https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.h
    make px4_sitl_rtps gazebo_iris_opt_flow__d4e_HCAairport
    ```
    (syntax: ```make <target> <simulator>_<vehiclemodel>__<world> ```)
+
    Should make and open PX4 in same console, as well as a Gazebo window with chosen model and world
   
 2. On a new terminal, source the ROS 2 workspace and then start the micrortps_agent daemon with UDP as the transport protocol:
