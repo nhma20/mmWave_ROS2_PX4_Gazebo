@@ -47,4 +47,5 @@ https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.h
    $ source ~/px4_ros_com_ros2/install/setup.bash
    $ ros2 launch px4_ros_com sensor_combined_listener.launch.py
    ```
-  
+   
+5. Optionally, open QGroundControl which will connect with PX4. From here it is possible to set waypoints and execute mission.
