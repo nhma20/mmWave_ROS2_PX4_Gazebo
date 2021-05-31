@@ -24,10 +24,10 @@ https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.h
 ### Test if all works
 (https://docs.px4.io/master/en/ros/ros2_comm.html#sanity-check-the-installation)
 1. Open a new terminal in the root of the PX4 Autopilot project, and then start a PX4 Gazebo simulation using:
-   syntax: ```make <target> <simulator>_<vehiclemodel>__<world> ```
    ```sh
    make px4_sitl_rtps gazebo_iris_opt_flow__d4e_HCAairport
    ```
+   (syntax: ```make <target> <simulator>_<vehiclemodel>__<world> ```)
    Should make and open PX4 in same console, as well as a Gazebo window with chosen model and world
   
 2. On a new terminal, source the ROS 2 workspace and then start the micrortps_agent daemon with UDP as the transport protocol:
