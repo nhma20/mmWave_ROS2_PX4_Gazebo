@@ -66,3 +66,8 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    $ source ~/px4_ros_com_ros2/install/setup.bash
    $ ros2 run px4_ros_com offboard_control
    ```
+   
+   
+pxh> param set NAV_RCL_ACT 0
+  NAV_RCL_ACT: curr: 2 -> new: 0
+
