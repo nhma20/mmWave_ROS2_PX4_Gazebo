@@ -77,7 +77,8 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    pxh> param set NAV_RCL_ACT 0
 
    NAV_RCL_ACT: curr: 2 -> new: 0
-3. 
+3. Local positioning?
+   https://github.com/PX4/px4_msgs/blob/ros2/msg/VehicleLocalPositionSetpoint.msg
 
 
 
