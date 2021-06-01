@@ -14,7 +14,7 @@ https://docs.px4.io/master/en/ros/ros2_comm.html
 
 ### Install Gazebo HCA worlds/models
 ```sh
-~/Drones4Energy_SDU_Only_code-master/Tools/simulationAssets$ ./installAssets.sh ~/PX4-Autopilot/
+$ ~/Drones4Energy_SDU_Only_code-master/Tools/simulationAssets$ ./installAssets.sh ~/PX4-Autopilot/
 ```
 Add new worlds/models to ~/PX4-Autopilot/platforms/posix/cmake/sitl_target.cmake
 
@@ -25,7 +25,7 @@ https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.h
 (https://docs.px4.io/master/en/ros/ros2_comm.html#sanity-check-the-installation)
 1. Open a new terminal in the root of the PX4 Autopilot project, and then start a PX4 Gazebo simulation using:
    ```sh
-   make px4_sitl_rtps gazebo_iris__d4e_HCAairport
+   $ make px4_sitl_rtps gazebo_iris__d4e_HCAairport
    ```
    (syntax: ```make <target> <simulator>_<vehiclemodel>__<world> ```)
 
@@ -58,8 +58,8 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 6. Edit offboard_control.cpp to include wanted behavior.
 7. Build colcon workspace with script:
    ```sh
-   cd ~/px4_ros_com_ros2/src/px4_ros_com/scripts
-   ./build_ros2_workspace.bash
+   $ cd ~/px4_ros_com_ros2/src/px4_ros_com/scripts
+   $ ./build_ros2_workspace.bash
    ```
 8. After building the colcon workspace, and after starting PX4 SITL and both the microRTPS bridge client and agent:
    ```sh 
