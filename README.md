@@ -49,3 +49,8 @@ https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.h
    ```
    
 5. Optionally, open QGroundControl which will connect with PX4. From here it is possible to set waypoints and execute mission.
+
+
+### ROS2 offboard control
+https://docs.px4.io/master/en/ros/ros2_offboard_control.html
+https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_control.cpp
