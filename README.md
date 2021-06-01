@@ -67,14 +67,19 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    $ ros2 run px4_ros_com offboard_control
    ```
    
-   
-pxh> param set NAV_RCL_ACT 0
-
-NAV_RCL_ACT: curr: 2 -> new: 0
 
 
-pxh> param set COM_DISARM_PRFLT -1
-  
-COM_DISARM_PRFLT: curr: 10.0000 -> new: -1.0000
+
+### stuff
+1. Trajectory setpoint message:
+   https://github.com/PX4/px4_msgs/blob/ros2/msg/TrajectorySetpoint.msg
+2. Disabled param:
+   pxh> param set NAV_RCL_ACT 0
+
+   NAV_RCL_ACT: curr: 2 -> new: 0
+3. 
+
+
+
 
 
