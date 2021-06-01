@@ -80,7 +80,13 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 3. Local positioning?
    https://github.com/PX4/px4_msgs/blob/ros2/msg/VehicleLocalPositionSetpoint.msg
 
-
+### TODO
+1. Figure out how to control drone via offboard_control.cpp
+2. Make ROS2 advertiser that generates control input for offboard_control.cpp for more advanced control
+3. Figure out how to use simulated depth sensors
+4. Edit sensor plugin to act like mmWave sensor
+5. Implement depth data into ROS2 advertiser for even more advanced control
+6. Control drone towards overhead cable
 
 
 
