@@ -25,7 +25,7 @@ https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.h
 (https://docs.px4.io/master/en/ros/ros2_comm.html#sanity-check-the-installation)
 1. Open a new terminal in the root of the PX4 Autopilot project, and then start a PX4 Gazebo simulation using:
    ```sh
-   make px4_sitl_rtps gazebo_iris_opt_flow__d4e_HCAairport
+   make px4_sitl_rtps gazebo_iris__d4e_HCAairport
    ```
    (syntax: ```make <target> <simulator>_<vehiclemodel>__<world> ```)
 
@@ -48,7 +48,7 @@ https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.h
    $ ros2 launch px4_ros_com sensor_combined_listener.launch.py
    ```
    
-5. Optionally, open QGroundControl which will connect with PX4. From here it is possible to set waypoints and execute mission.
+5. Optionally, open QGroundControl which will connect with PX4. From here it is possible to set waypoints and execute missions.
 
 
 ### ROS2 offboard control
