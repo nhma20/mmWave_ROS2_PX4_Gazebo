@@ -82,6 +82,8 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    
 4. Add any new ROS2 files to ~/px4_ros_com_ros2/src/px4_ros_com/CMakeLists.txt
 
+5. Check armed? https://github.com/PX4/px4_msgs/blob/ros2/msg/ActuatorArmed.msg
+
 
 ### TODO
 0. :green_circle: Install tools 
