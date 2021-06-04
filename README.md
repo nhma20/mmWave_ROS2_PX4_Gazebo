@@ -74,7 +74,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 10. Simulated drone in Gazebo should arm, takeoff, and fly in a square pattern. May need to restart two last ros2 runs.
 
 
-### stuff
+### MISC
 1. Trajectory setpoint message:
    https://github.com/PX4/px4_msgs/blob/ros2/msg/TrajectorySetpoint.msg
 2. Disabled param:
@@ -88,6 +88,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 
 5. Check armed? https://github.com/PX4/px4_msgs/blob/ros2/msg/ActuatorArmed.msg
 
+6. libignition-common3 error (after software update?) - Copy existing file and rename to match missing file
 
 ### TODO
 0. :green_circle: Install tools 
