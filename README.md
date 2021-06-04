@@ -89,6 +89,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 5. Check armed? https://github.com/PX4/px4_msgs/blob/ros2/msg/ActuatorArmed.msg
 
 6. libignition-common3 error (after software update?) - Copy existing file and rename to match missing file
+7. Difference between ```make px4_sitl_rtps gazebo``` (works) and ```make px4_sitl_rtps gazebo_iris__empty``` (does not work) ?
 
 ### TODO
 0. :green_circle: Install tools 
