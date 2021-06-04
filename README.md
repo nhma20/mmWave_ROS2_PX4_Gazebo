@@ -90,6 +90,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 
 6. libignition-common3 error (after software update?) - Copy existing file and rename to match missing file
 7. Difference between ```make px4_sitl_rtps gazebo``` (works) and ```make px4_sitl_rtps gazebo_iris__empty``` (does not work) ?
+8. If gazebo no opening, try running ```gazebo --verbose``` to troubleshoot. ```killall gzserver``` should kill any gazebo instances. Restart PC if all else fails.
 
 ### TODO
 0. :green_circle: Install tools 
