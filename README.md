@@ -73,6 +73,8 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    ```
 10. Simulated drone in Gazebo should arm, takeoff, and fly in a square pattern. May need to restart two last ros2 runs.
 
+11. ~/PX4-Autopilot/Tools/sitl_gazebo/models/iris/iris.sdf (or other models) can be edited to include sensors, like 2D lidar.
+
 
 ### MISC
 1. Trajectory setpoint message:
@@ -91,6 +93,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 6. libignition-common3 error (after software update?) - Copy existing file and rename to match missing file
 7. Difference between ```make px4_sitl_rtps gazebo``` (works) and ```make px4_sitl_rtps gazebo_iris__empty``` (does not work) ?
 8. If gazebo does not open, try running ```gazebo --verbose``` to troubleshoot. ```killall gzserver``` should kill any gazebo instances. Restart PC if all else fails.
+9. inlude both iris.sdf and iris.sdf.jinja?
 
 ### TODO
 0. :green_circle: Install tools 
