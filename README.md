@@ -94,6 +94,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 7. Difference between ```make px4_sitl_rtps gazebo``` (works) and ```make px4_sitl_rtps gazebo_iris__empty``` (does not work) ?
 8. If gazebo does not open, try running ```gazebo --verbose``` to troubleshoot. ```killall gzserver``` should kill any gazebo instances. Restart PC if all else fails.
 9. inlude both iris.sdf and iris.sdf.jinja?
+10. Implemented laser scanner with Gazebo and ROS2 https://github.com/chapulina/dolly
 
 ### TODO
 0. :green_circle: Install tools 
