@@ -95,6 +95,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 8. If gazebo does not open, try running ```gazebo --verbose``` to troubleshoot. ```killall gzserver``` should kill any gazebo instances. Restart PC if all else fails.
 9. inlude both iris.sdf and iris.sdf.jinja?
 10. Implemented laser scanner with Gazebo and ROS2 https://github.com/chapulina/dolly
+11. Make custom sensor plugin http://gazebosim.org/tutorials?cat=guided_i&tut=guided_i5
 
 ### TODO
 0. :green_circle: Install tools 
