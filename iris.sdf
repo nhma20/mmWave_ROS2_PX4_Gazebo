@@ -55,24 +55,24 @@
       
 <!-- SENSOR SECTION STARTS HERE --> 
       <sensor name="sensor_ray" type="ray">
-        <pose>0.5 0 0 0 0 0</pose>
+        <pose>0 0 0.05 0 -1.571 0</pose>
         <ray>
           <scan>
             <horizontal>
-              <samples>200</samples>
+              <samples>1000</samples>
               <resolution>1.0</resolution>
-              <min_angle>-1.0</min_angle>
-              <max_angle>1.0</max_angle>
+              <min_angle>-1.4</min_angle>
+              <max_angle>1.4</max_angle>
             </horizontal>
           </scan>
           <range>
-            <min>0.05</min>
+            <min>0.25</min>
             <max>10.0</max>
           </range>
         </ray>
         <always_on>true</always_on>
         <visualize>true</visualize>
-        <update_rate>100.0</update_rate>
+        <update_rate>50.0</update_rate>
         <plugin name="laser" filename="libgazebo_ros_ray_sensor.so">
           <ros>
             <namespace>/dolly</namespace>
@@ -150,7 +150,7 @@
         </surface>
       </collision>
       <visual name='rotor_0_visual'>
-        <pose>1 0 0 0 0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
