@@ -90,6 +90,8 @@ public:
 			"vel_ctrl_vect_topic",	10,
 			std::bind(&OffboardControl::arm_set_vel, this, std::placeholders::_1));
 
+		publish_offboard_control_mode();
+		publish_trajectory_setpoint();
 	}
 	
 	void arm();
@@ -112,6 +114,7 @@ private:
 	void arm_set_vel(const px4_msgs::msg::DebugVect::UniquePtr msg);
 	void publish_offboard_control_mode() const;
 	void publish_trajectory_setpoint(float x, float y, float z, float yaw, float yawspeed, float vx, float vy, float vz) const;
+	void publish_trajectory_setpoint() const;
 	void publish_vehicle_command(uint16_t command, float param1 = 0.0,
 				     float param2 = 0.0) const;
 };
@@ -125,10 +128,11 @@ void OffboardControl::arm_set_vel(const px4_msgs::msg::DebugVect::UniquePtr msg)
 		this->publish_vehicle_command(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 6); // Change to Offboard mode
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		arm(); 	// Arm the vehicle
-	}
+	} else {
 	publish_offboard_control_mode();
 	publish_trajectory_setpoint(NAN,NAN,NAN,NAN,NAN,msg->x,msg->y,msg->z);
 	RCLCPP_INFO(this->get_logger(),  "var: vx: %f, vy: %f, vz: %f'", msg->x, msg->y, msg->y);
+	}
 }
 
 /**
@@ -183,6 +187,18 @@ void OffboardControl::publish_trajectory_setpoint(float x, float y, float z, flo
 	//msg.acceleration	// in meters/sec^2
 	//msg.jerk		// in meters/sec^3
 	//msg.thrust		// normalized thrust vector in NED
+
+	trajectory_setpoint_publisher_->publish(msg);
+
+}
+
+void OffboardControl::publish_trajectory_setpoint() const {
+	TrajectorySetpoint msg{};
+	msg.timestamp = timestamp_.load();
+	msg.x = 0; 		// in meters NED
+	msg.y = 0; 		// in meters NED
+	msg.z = -5; 		// in meters NED
+	msg.yaw = 0; 	// in radians NED -PI..+PI
 
 	trajectory_setpoint_publisher_->publish(msg);
 
