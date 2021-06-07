@@ -10,7 +10,7 @@ class lidar_test_pub : public rclcpp::Node
 	public:
 		lidar_test_pub() : Node("vel_ctrl_vect_advertiser") {
 			subscription_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
-			"/dolly/laser_scan",	10,
+			"/dist_sensor/laser_scan",	10,
 			std::bind(&lidar_test_pub::OnSensorMsg, this, std::placeholders::_1));
 		}
 
