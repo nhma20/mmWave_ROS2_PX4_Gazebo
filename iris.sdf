@@ -75,7 +75,7 @@
         <update_rate>50.0</update_rate>
         <plugin name="laser" filename="libgazebo_ros_ray_sensor.so">
           <ros>
-            <namespace>/dolly</namespace>
+            <namespace>/dist_sensor</namespace>
             <remapping>~/out:=laser_scan</remapping>
           </ros>
           <output_type>sensor_msgs/LaserScan</output_type>
