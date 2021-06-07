@@ -10,6 +10,7 @@ http://gazebosim.org/tutorials?tut=ros2_installing&cat=connect_ros
 
 ### Install PX4 (ROS2, RTPS, SITL, Gazebo)
 https://docs.px4.io/master/en/ros/ros2_comm.html
+
 (follow https://docs.px4.io/master/en/dev_setup/dev_env_linux_ubuntu.html#gazebo-jmavsim-and-nuttx-pixhawk-targets during sanity check)
 
 ### Install Gazebo HCA worlds/models
