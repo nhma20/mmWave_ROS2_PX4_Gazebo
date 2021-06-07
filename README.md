@@ -104,9 +104,9 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 1. :green_circle: Figure out how to control drone via offboard_control.cpp 
 2. :green_circle: Make ROS2 advertiser that generates control input for offboard_control.cpp for more advanced control
 3. :green_circle: Figure out how to use simulated depth sensors
-4. :yellow_circle: Edit sensor plugin to act like mmWave sensor
-5. :yellow_circle: Implement depth data into ROS2 advertiser for even more advanced control
-6. :yellow_circle: Control drone towards overhead cable
+4. :yellow_circle: Implement depth data into ROS2 advertiser for even more advanced control
+5. :yellow_circle: Control drone towards overhead cable
+6. :yellow_circle: Edit sensor plugin to act like mmWave sensor
 
 
 
