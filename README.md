@@ -114,8 +114,9 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 4. :green_circle: Implement depth data into ROS2 advertiser for even more advanced control
 5. :green_circle: Control drone towards overhead cable
 6. :yellow_circle: More tightly integrate with PX4 to optimize control based on e.g. drone state
-7. :yellow_circle: Implement cable detection AI to filter depth data and align drone yaw wrt. cable
-8. :yellow_circle: Edit sensor plugin to act like mmWave sensor
+7. :yellow_circle: Use drone mounted simulated camera to get images of overhead cable 
+8. :yellow_circle: Implement cable detection AI to filter depth data and align drone yaw wrt. cable
+9. :yellow_circle: Edit sensor plugin to act like mmWave sensor
 
 
 
