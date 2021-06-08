@@ -79,7 +79,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    $ source ~/px4_ros_com_ros2/install/setup.bash
    $ ros2 run px4_ros_com vel_ctrl_vec_pub
    ```
-10. Simulated drone in Gazebo should arm, takeoff, and fly in a square pattern. May need to restart two last ros2 runs.
+10. Simulated drone in Gazebo should arm, takeoff, and fly in a square pattern. May need to restart ```vel_ctrl_vec_pub``` and ```offboard_control``` ros2 runs.
 
 11. ~/PX4-Autopilot/Tools/sitl_gazebo/models/iris/iris.sdf (or other models) can be edited to include sensors, like 2D lidar.
 
