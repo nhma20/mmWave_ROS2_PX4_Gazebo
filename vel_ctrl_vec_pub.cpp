@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <chrono>
-#include <iostream>
+#include <math.h>  
 
 using namespace std::chrono_literals;
 
@@ -72,15 +72,54 @@ void VelocityControlVectorAdvertiser::DroneControl(){
 	}	
 	callback_count++;
 			
-	RCLCPP_INFO(this->get_logger(), "\033[97m Publishing vel_ctrl_vect: time: %llu xv: %f yv: %f zv: %f \033[0m",
-                vel_ctrl_vect.timestamp, vel_ctrl_vect.x, vel_ctrl_vect.y, vel_ctrl_vect.z);
-	this->publisher_->publish(vel_ctrl_vect);
+	//RCLCPP_INFO(this->get_logger(), "\033[97m Publishing vel_ctrl_vect: time: %llu xv: %f yv: %f zv: %f \033[0m",
+        //        vel_ctrl_vect.timestamp, vel_ctrl_vect.x, vel_ctrl_vect.y, vel_ctrl_vect.z);
+	//this->publisher_->publish(vel_ctrl_vect);
 }
 
 
 // Lidar message callback function
 void VelocityControlVectorAdvertiser::OnSensorMsg(const sensor_msgs::msg::LaserScan::SharedPtr _msg){
-	std::cout << "1st dist: " << _msg->ranges[0] << std::endl;
+	float angle_increment = _msg->angle_increment;
+	float angle_min = _msg->angle_min;
+	float angle_max = _msg->angle_max;
+	float total_angle = angle_max - angle_min;
+	int num_of_rays = round(total_angle / angle_increment); // 1000
+	
+	// get shortest dist index
+	int shortestDistIdx = 0;
+	for(int i = 0; i < num_of_rays; i++){
+		if(_msg->ranges[shortestDistIdx] > _msg->ranges[i]){
+			shortestDistIdx = i;
+		}
+	}
+	
+	// angle compared to straight up from drone
+	float shortestDistIdxAngle = float(shortestDistIdx)*angle_increment - angle_max; 
+	std::cout << "angle: " << shortestDistIdxAngle << std::endl;
+	
+	auto vel_ctrl_vect = px4_msgs::msg::DebugVect();
+	vel_ctrl_vect.timestamp = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count();
+	std::string name = "test";
+	std::copy(name.begin(), name.end(), vel_ctrl_vect.name.begin());
+	
+	// create velocity control vector to steer drone towards cable
+	if(_msg->ranges[shortestDistIdx] > 1){
+		vel_ctrl_vect.x = 0;
+		vel_ctrl_vect.y = shortestDistIdxAngle; 
+		vel_ctrl_vect.z = -0.1*_msg->ranges[shortestDistIdx];//-0.25;
+	} else if(_msg->ranges[shortestDistIdx] < 1){
+		vel_ctrl_vect.x = 0;
+		vel_ctrl_vect.y = shortestDistIdxAngle; 
+		vel_ctrl_vect.z = 0.1*_msg->ranges[shortestDistIdx];//0.25;
+	} else {
+		vel_ctrl_vect.x = 0;
+		vel_ctrl_vect.y = shortestDistIdxAngle; 
+		vel_ctrl_vect.z = 0;
+	}
+		
+	this->publisher_->publish(vel_ctrl_vect);
+	
 }
 
 			
