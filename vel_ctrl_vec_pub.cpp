@@ -17,12 +17,6 @@ class VelocityControlVectorAdvertiser : public rclcpp::Node
 	public:
 		VelocityControlVectorAdvertiser() : Node("vel_ctrl_vect_advertiser") {
 			publisher_ = this->create_publisher<px4_msgs::msg::DebugVect>("vel_ctrl_vect_topic", 10);
-			auto timer_callback =
-			[this]()->void {
-				VelocityControlVectorAdvertiser::DroneControl();
-			};
-			
-			timer_ = this->create_wall_timer(100ms, timer_callback);
 			
 			subscription_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
 			"/dist_sensor/laser_scan",	10,
@@ -35,46 +29,20 @@ class VelocityControlVectorAdvertiser : public rclcpp::Node
 		rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr subscription_;
 		int callback_count = 0;
 		void OnSensorMsg(const sensor_msgs::msg::LaserScan::SharedPtr _msg);
-		void DroneControl();
+		void VelocityDroneControl(float xv, float yv, float zv);
 };
 
 
-// Control drone in square pattern
-void VelocityControlVectorAdvertiser::DroneControl(){
+// Control drone velocities
+void VelocityControlVectorAdvertiser::VelocityDroneControl(float xv, float yv, float zv){
 	auto vel_ctrl_vect = px4_msgs::msg::DebugVect();
 	vel_ctrl_vect.timestamp = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count();
 	std::string name = "test";
 	std::copy(name.begin(), name.end(), vel_ctrl_vect.name.begin());
-	if(callback_count < 100){
-		vel_ctrl_vect.x = NAN;
-		vel_ctrl_vect.y = NAN;
-		vel_ctrl_vect.z = -3.0; // go up for 10s
-	} else if(callback_count % 100 < 25){
-		vel_ctrl_vect.x = 0;
-		vel_ctrl_vect.y = 3; // go east
-		vel_ctrl_vect.z = 0;
-	} else if(callback_count % 100 < 50){
-		vel_ctrl_vect.x = 0;
-		vel_ctrl_vect.y = 0;
-		vel_ctrl_vect.z = -3; // go up
-	} else if(callback_count % 100 < 75){
-		vel_ctrl_vect.x = 0;
-		vel_ctrl_vect.y = -3; // go west
-		vel_ctrl_vect.z = 0;
-	} else if(callback_count % 100 > 74){
-		vel_ctrl_vect.x = 0;
-		vel_ctrl_vect.y = 0;
-		vel_ctrl_vect.z = 3; // go down
-	} else{
-		vel_ctrl_vect.x = 0;
-		vel_ctrl_vect.y = 0; // do nothing if bugged
-		vel_ctrl_vect.z = 0;
-	}	
-	callback_count++;
-			
-	//RCLCPP_INFO(this->get_logger(), "\033[97m Publishing vel_ctrl_vect: time: %llu xv: %f yv: %f zv: %f \033[0m",
-        //        vel_ctrl_vect.timestamp, vel_ctrl_vect.x, vel_ctrl_vect.y, vel_ctrl_vect.z);
-	//this->publisher_->publish(vel_ctrl_vect);
+	vel_ctrl_vect.x = xv;
+	vel_ctrl_vect.y = yv;
+	vel_ctrl_vect.z = zv;
+	this->publisher_->publish(vel_ctrl_vect);
 }
 
 
@@ -103,22 +71,40 @@ void VelocityControlVectorAdvertiser::OnSensorMsg(const sensor_msgs::msg::LaserS
 	std::string name = "test";
 	std::copy(name.begin(), name.end(), vel_ctrl_vect.name.begin());
 	
-	// create velocity control vector to steer drone towards cable
-	if(_msg->ranges[shortestDistIdx] > 1){
-		vel_ctrl_vect.x = 0;
-		vel_ctrl_vect.y = shortestDistIdxAngle; 
-		vel_ctrl_vect.z = -0.1*_msg->ranges[shortestDistIdx];//-0.25;
-	} else if(_msg->ranges[shortestDistIdx] < 1){
-		vel_ctrl_vect.x = 0;
-		vel_ctrl_vect.y = shortestDistIdxAngle; 
-		vel_ctrl_vect.z = 0.1*_msg->ranges[shortestDistIdx];//0.25;
-	} else {
-		vel_ctrl_vect.x = 0;
-		vel_ctrl_vect.y = shortestDistIdxAngle; 
-		vel_ctrl_vect.z = 0;
+	if(_msg->ranges[shortestDistIdx] < 10){
+		// create velocity control vector to steer drone towards cable
+		if(_msg->ranges[shortestDistIdx] > 1){
+			VelocityDroneControl(0, shortestDistIdxAngle, -0.1*_msg->ranges[shortestDistIdx]);
+		} else if(_msg->ranges[shortestDistIdx] < 1){
+			VelocityDroneControl(0, shortestDistIdxAngle, 0.1*_msg->ranges[shortestDistIdx]);
+		} else {
+			VelocityDroneControl(0,shortestDistIdxAngle,0);
+		}
+	} else {	
+		// control drone in square motion if nothing within lidar fov
+		static int callbackscale = 5;
+		std::cout << "CallbackCount" << callback_count << std::endl;
+		if(callback_count < 100*callbackscale){
+			VelocityDroneControl(NAN,NAN,-3.0); // go up
+			std::cout << "START" << std::endl;
+		} else if(callback_count % (100*callbackscale) < 25*callbackscale){
+			VelocityDroneControl(0,3,0); // go east
+			std::cout << "EAST" << std::endl;
+		} else if(callback_count % (100*callbackscale) < 50*callbackscale){
+			VelocityDroneControl(0,0,-3); // go up
+			std::cout << "UP" << std::endl;
+		} else if(callback_count % (100*callbackscale) < 75*callbackscale){
+			VelocityDroneControl(0,-3,0); // go west
+			std::cout << "WEST" << std::endl;
+		} else if(callback_count % (100*callbackscale) > 74*callbackscale){
+			VelocityDroneControl(0,0,3); // go down
+			std::cout << "DOWN" << std::endl;
+		} else{
+			VelocityDroneControl(0,0,0); // do nothing
+		}	
+		callback_count++;
 	}
-		
-	this->publisher_->publish(vel_ctrl_vect);
+
 	
 }
 
