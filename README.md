@@ -3,9 +3,13 @@ Simulate mmWave radar based drone control i Gazebo with ROS2 and PX4
 
 ### Prerequisites
 Tested with:
+
 Ubuntu 20.04.2 LTS
+
 ROS2 Foxy
+
 Gazebo 11.5.1
+
 PX4 Autopilot v1.11.3
 
 
