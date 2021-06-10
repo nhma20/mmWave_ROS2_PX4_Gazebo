@@ -24,6 +24,9 @@ https://docs.px4.io/master/en/ros/ros2_comm.html
 ```sh
 $ ~/Drones4Energy_SDU_Only_code-master/Tools/simulationAssets$ ./installAssets.sh ~/PX4-Autopilot/
 ```
+
+or from ~/hcaa_pylon_setup/ copy hcaa_pylon_setup folder to ~/PX4-Autopilot/Tools/sitl_gazebo/models/, copy and hca_full_setup.world to ~/PX4-Autopilot/Tools/sitl_gazebo/worlds/
+
 Add new worlds/models to ~/PX4-Autopilot/platforms/posix/cmake/sitl_target.cmake
 
 ### Install QGroundControl
