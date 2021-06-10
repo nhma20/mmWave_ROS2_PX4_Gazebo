@@ -38,6 +38,11 @@ https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.h
    ```sh
    $ make px4_sitl_rtps gazebo_iris__hca_full_setup
    ```
+   or, for single cable:
+    ```sh
+   $ make px4_sitl_rtps gazebo_iris__d4s_HCAairport
+   ```
+   
    (syntax: ```make <target> <simulator>_<vehiclemodel>__<world> ```, prepend ```HEADLESS=1``` to launch without GUI)
 
    Should make and open PX4 in same console, as well as a Gazebo window with chosen model and world
