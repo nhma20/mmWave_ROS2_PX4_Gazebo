@@ -36,7 +36,7 @@ https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.h
 (https://docs.px4.io/master/en/ros/ros2_comm.html#sanity-check-the-installation)
 1. Open a new terminal in the root of the PX4 Autopilot project, and then start a PX4 Gazebo simulation using:
    ```sh
-   $ make px4_sitl_rtps gazebo_iris__d4e_HCAairport
+   $ make px4_sitl_rtps gazebo_iris__hca_full_setup
    ```
    (syntax: ```make <target> <simulator>_<vehiclemodel>__<world> ```, prepend ```HEADLESS=1``` to launch without GUI)
 
