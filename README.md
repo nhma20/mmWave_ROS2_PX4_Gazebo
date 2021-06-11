@@ -126,9 +126,11 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 ![Alt text](https://github.com/nhma20/mmWave_ROS2_PX4_Gazebo/blob/main/Pictures/Screenshot_from_2021-06-08_15-17-35.png?raw=true)
 
 7. :yellow_circle: More tightly integrate with PX4 to optimize control based on e.g. drone state
-8. :yellow_circle: Use drone mounted simulated camera to get images of overhead cable 
-9. :yellow_circle: Implement cable detection AI to filter depth data and align drone yaw wrt. cable
-10. :yellow_circle: Edit sensor plugin to act like mmWave sensor
+   - get pose of drone to mitigate sideways motion when rotated around x or y.
+   - use GPS positioning to counteract drift
+9. :yellow_circle: Use drone mounted simulated camera to get images of overhead cable 
+10. :yellow_circle: Implement cable detection AI to filter depth data and align drone yaw wrt. cable
+11. :yellow_circle: Edit sensor plugin to act like mmWave sensor
 
 
 
