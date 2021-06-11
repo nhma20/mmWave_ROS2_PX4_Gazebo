@@ -1,5 +1,6 @@
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
+#include <sensor_msgs/msg/image.hpp>
 
 #include <iostream>
 
@@ -9,17 +10,25 @@ class lidar_test_pub : public rclcpp::Node
 {
 	public:
 		lidar_test_pub() : Node("vel_ctrl_vect_advertiser") {
-			subscription_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
+			/*subscription_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
 			"/dist_sensor/laser_scan",	10,
+			std::bind(&lidar_test_pub::OnSensorMsg, this, std::placeholders::_1));*/
+			subscription_ = this->create_subscription<sensor_msgs::msg::Image>(
+			"/cable_camera/image_raw",	10,
 			std::bind(&lidar_test_pub::OnSensorMsg, this, std::placeholders::_1));
 		}
 
 
 	private:
-		rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr subscription_;
+		//rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr subscription_;
+		rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr subscription_;
 
-		void OnSensorMsg(const sensor_msgs::msg::LaserScan::SharedPtr _msg){
+		/*void OnSensorMsg(const sensor_msgs::msg::LaserScan::SharedPtr _msg){
 			std::cout << "1st dist: " << _msg->ranges[0] << std::endl;
+		}*/
+		
+		void OnSensorMsg(const sensor_msgs::msg::Image::SharedPtr _msg){
+			std::cout << "Img received" << std::endl;
 		}
 };
 
