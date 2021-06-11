@@ -1,6 +1,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <px4_msgs/msg/debug_vect.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
+#include <sensor_msgs/msg/image.hpp>
 
 #include <iostream>
 #include <chrono>
@@ -20,15 +21,21 @@ class VelocityControlVectorAdvertiser : public rclcpp::Node
 			
 			subscription_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
 			"/dist_sensor/laser_scan",	10,
-			std::bind(&VelocityControlVectorAdvertiser::OnSensorMsg, this, std::placeholders::_1));
+			std::bind(&VelocityControlVectorAdvertiser::OnDepthMsg, this, std::placeholders::_1));
+			
+			camera_subscription_ = this->create_subscription<sensor_msgs::msg::Image>(
+			"/cable_camera/image_raw",	10,
+			std::bind(&VelocityControlVectorAdvertiser::OnCameraMsg, this, std::placeholders::_1));
 		}
 
 	private:
 		rclcpp::TimerBase::SharedPtr timer_;
 		rclcpp::Publisher<px4_msgs::msg::DebugVect>::SharedPtr publisher_;
 		rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr subscription_;
+		rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr camera_subscription_;
 		int callback_count = 0;
-		void OnSensorMsg(const sensor_msgs::msg::LaserScan::SharedPtr _msg);
+		void OnDepthMsg(const sensor_msgs::msg::LaserScan::SharedPtr _msg);
+		void OnCameraMsg(const sensor_msgs::msg::Image::SharedPtr _msg);
 		void VelocityDroneControl(float xv, float yv, float zv);
 };
 
@@ -47,7 +54,7 @@ void VelocityControlVectorAdvertiser::VelocityDroneControl(float xv, float yv, f
 
 
 // Lidar message callback function
-void VelocityControlVectorAdvertiser::OnSensorMsg(const sensor_msgs::msg::LaserScan::SharedPtr _msg){
+void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::LaserScan::SharedPtr _msg){
 	float angle_increment = _msg->angle_increment;
 	float angle_min = _msg->angle_min;
 	float angle_max = _msg->angle_max;
@@ -104,10 +111,13 @@ void VelocityControlVectorAdvertiser::OnSensorMsg(const sensor_msgs::msg::LaserS
 		}	
 		callback_count++;
 	}
-
-	
 }
 
+
+void VelocityControlVectorAdvertiser::OnCameraMsg(const sensor_msgs::msg::Image::SharedPtr _msg){
+	std::cout << "Img received, size: " << _msg->width << "x" << _msg->height << std::endl;
+}
+	
 			
 int main(int argc, char *argv[])
 {
