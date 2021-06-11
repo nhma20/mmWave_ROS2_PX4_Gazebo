@@ -128,7 +128,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 7. :yellow_circle: More tightly integrate with PX4 to optimize control based on e.g. drone state
    - get pose of drone to mitigate sideways motion when rotated around x or y.
    - use GPS positioning to counteract drift
-9. :yellow_circle: Use drone mounted simulated camera to get images of overhead cable 
+9. :green_circle: Use drone mounted simulated camera to get images of overhead cable 
 10. :yellow_circle: Implement cable detection AI to filter depth data and align drone yaw wrt. cable
 11. :yellow_circle: Edit sensor plugin to act like mmWave sensor
 
