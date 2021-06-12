@@ -114,6 +114,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 11. Make custom sensor plugin http://gazebosim.org/tutorials?cat=guided_i&tut=guided_i5
 12. In ~/px4_ros_com_ros2/src/px4_ros_com/CMakeLists.txt add ```sensor_msgs``` under ```ament_target_dependencies```
 13. After running ```./build_ros2_workspace``` restart all affected executables (micrortps_agent, offboard_control, vel_vec_ctrl_pub). Gazebo PX4 SITL can be left running.
+14. Display simulated camera feed either with rviz2 or ```ros2 run image_tools showimage image:=/cable_camera/image_raw```
 
 ### TODO
 0. :green_circle: Install tools 
