@@ -46,6 +46,8 @@ find_package("${rmw_implementation}" REQUIRED)
 find_package(px4_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+#find_package(OpenCV REQUIRED)
 
 find_package(PythonInterp 3 REQUIRED)
 if(ROS_DISTRO IN_LIST ROS_DISTROS)
@@ -73,6 +75,8 @@ function(custom_executable subfolder target)
     rclcpp
     px4_msgs
     sensor_msgs
+    std_msgs
+    #OpenCV
   )
   install(TARGETS ${target}
   DESTINATION lib/${PROJECT_NAME})
