@@ -2,7 +2,9 @@
 #include <px4_msgs/msg/debug_vect.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
 #include <sensor_msgs/msg/image.hpp>
+#include <std_msgs/msg/float32.hpp>
 
+#include <stdlib.h> 
 #include <iostream>
 #include <chrono>
 #include <math.h>  
@@ -19,6 +21,8 @@ class VelocityControlVectorAdvertiser : public rclcpp::Node
 		VelocityControlVectorAdvertiser() : Node("vel_ctrl_vect_advertiser") {
 			publisher_ = this->create_publisher<px4_msgs::msg::DebugVect>("vel_ctrl_vect_topic", 10);
 			
+			hor_pix_publisher_ = this->create_publisher<std_msgs::msg::Float32>("/horisontal_cable_pixel", 10);
+			
 			subscription_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
 			"/dist_sensor/laser_scan",	10,
 			std::bind(&VelocityControlVectorAdvertiser::OnDepthMsg, this, std::placeholders::_1));
@@ -31,8 +35,11 @@ class VelocityControlVectorAdvertiser : public rclcpp::Node
 	private:
 		rclcpp::TimerBase::SharedPtr timer_;
 		rclcpp::Publisher<px4_msgs::msg::DebugVect>::SharedPtr publisher_;
+		rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr hor_pix_publisher_;
 		rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr subscription_;
 		rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr camera_subscription_;
+		float shortestDistAngle_;
+		float shortestDist_;
 		int callback_count = 0;
 		void OnDepthMsg(const sensor_msgs::msg::LaserScan::SharedPtr _msg);
 		void OnCameraMsg(const sensor_msgs::msg::Image::SharedPtr _msg);
@@ -72,6 +79,9 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::LaserSc
 	// angle compared to straight up from drone
 	float shortestDistIdxAngle = float(shortestDistIdx)*angle_increment - angle_max; 
 	std::cout << "angle: " << shortestDistIdxAngle << std::endl;
+	
+	this->shortestDist_ = _msg->ranges[shortestDistIdx];
+	this->shortestDistAngle_ = shortestDistIdxAngle;
 	
 	auto vel_ctrl_vect = px4_msgs::msg::DebugVect();
 	vel_ctrl_vect.timestamp = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count();
@@ -116,6 +126,22 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::LaserSc
 
 void VelocityControlVectorAdvertiser::OnCameraMsg(const sensor_msgs::msg::Image::SharedPtr _msg){
 	std::cout << "Img received, size: " << _msg->width << "x" << _msg->height << std::endl;
+
+	float img_hfov = 1.3962634;
+	float horProjectionLocation;
+	// publish horisontal pixel where nearest object would be
+	horProjectionLocation = (_msg->width/2) * (this->shortestDistAngle_ / (img_hfov/2));
+	std::cout << "shortestDistAngle_: " << this->shortestDistAngle_ << std::endl;
+	std::cout << "shortestDistAngle_ / (img_hfov/2): " << this->shortestDistAngle_ / (img_hfov/2) << std::endl;
+	std::cout << "horProjectionLocation: " << horProjectionLocation << std::endl;
+	auto float32_msg = std_msgs::msg::Float32();
+	float32_msg.data = horProjectionLocation;
+	this->hor_pix_publisher_->publish(float32_msg);
+	if(abs(horProjectionLocation) < (_msg->width/2)){
+		std::cout << "Display" << std::endl;
+	} else {
+		std::cout << "Do not display" << std::endl;
+	}
 }
 	
 			
