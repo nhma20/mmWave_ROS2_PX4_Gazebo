@@ -108,7 +108,8 @@ chmod +x ./QGroundControl.AppImage
 (overwrites existing files)
 ```sh
 cd ~/mmWave_ROS2_PX4_Gazebo/
-./installAssets.sh
+chmod +x ./install_repo_files.sh
+./install_repo_files.sh
 ```
 
 ### Test if all works
