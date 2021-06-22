@@ -17,6 +17,7 @@ cp -f $CWD/iris.sdf $PX4FIRMDIR/Tools/sitl_gazebo/models/iris/
 
 echo "installing HCA Airport world.."
 cp -f $CWD/hca_full_setup.world $PX4FIRMDIR/Tools/sitl_gazebo/worlds/
+cp -f $CWD/d4e_HCAairport.world $PX4FIRMDIR/Tools/sitl_gazebo/worlds/
 
 echo "installing Code files.."
 cp -f $CWD/lidar_test_sub.cpp $PX4ROSDIR/src/px4_ros_com/src/examples/offboard/
