@@ -153,6 +153,8 @@ chmod +x ./install.sh
    ```sh
    pxh> micrortps_client start -t UDP
    ```
+   (may already be running if following message is generated: ```INFO  [micrortps_client] Already running
+Command 'micrortps_client' failed, returned -1.```)
   
 4. Open a new terminal and start a "listener" using the provided launch file:
    ```sh 
