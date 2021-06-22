@@ -90,16 +90,6 @@ cd ~/px4_ros_com_ros2/src/px4_ros_com/scripts
 ./build_ros2_workspace.bash
 ```
 
-### Install Gazebo HCA worlds/models (optional)
-https://gitlab.drones4energy.dk/obs/Drones4Energy_SDU_Only_code/-/tree/iROS2021/Tools/simulationAssets
-```sh
-cd Drones4Energy_SDU_Only_code-iROS2021/Tools/simulationAssets
-./installAssets.sh ~/PX4-Autopilot/
-```
-
-or from ```~/hcaa_pylon_setup/``` copy ```hcaa_pylon_setup``` folder to ```~/PX4-Autopilot/Tools/sitl_gazebo/models/```, and copy ```hca_full_setup.world``` to ```~/PX4-Autopilot/Tools/sitl_gazebo/worlds/```
-
-Add new worlds/models to ~/PX4-Autopilot/platforms/posix/cmake/sitl_target.cmake
 
 ### Install QGroundControl
 https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.html#ubuntu
@@ -114,7 +104,12 @@ cd ~/Downloads/
 chmod +x ./QGroundControl.AppImage
 ./QGroundControl.AppImage  (or double click)
    ```
-### Make install script for files in this repo here
+### Install repository files
+(overwrites existing files)
+```sh
+cd ~/mmWave_ROS2_PX4_Gazebo/
+./installAssets.sh
+```
 
 ### Test if all works
 (https://docs.px4.io/master/en/ros/ros2_comm.html#sanity-check-the-installation)
@@ -124,7 +119,7 @@ chmod +x ./QGroundControl.AppImage
    ```
    or, for single cable:
     ```sh
-   $ make px4_sitl_rtps gazebo_iris__d4s_HCAairport
+   $ make px4_sitl_rtps gazebo_iris__d4e_HCAairport
    ```
    
    (syntax: ```make <target> <simulator>_<vehiclemodel>__<world> ```, prepend ```HEADLESS=1``` to launch without GUI)
@@ -202,6 +197,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    $ source ~/px4_ros_com_ros2/install/setup.bash
    $ ros2 run image_tools showimage image:=/cable_camera/image_raw
    ```
+14. Add new worlds/models to ~/PX4-Autopilot/platforms/posix/cmake/sitl_target.cmake (Oscar's worlds/models from https://gitlab.drones4energy.dk/obs/Drones4Energy_SDU_Only_code/-/tree/iROS2021/Tools/simulationAssets)
 
 ### TODO
 0. :green_circle: Install tools 
