@@ -8,20 +8,21 @@ if [[ "$2" == "" ]]; then
   exit
 fi
 
-echo "installing CMake file.."
-cp -i $CWD/CMakeLists.txt $PX4ROSDIR/src/px4_ros_com/ -v
+echo "installing CMake files.."
+cp -f $CWD/CMakeLists.txt $PX4ROSDIR/src/px4_ros_com/
+cp -f $CWD/sitl_target.cmake $PX4FIRMDIR/platforms/posix/cmake/
 
 echo "installing Iris model.."
-cp -i $CWD/iris.sdf $PX4FIRMDIR/Tools/sitl_gazebo/models/iris/ -v
+cp -f $CWD/iris.sdf $PX4FIRMDIR/Tools/sitl_gazebo/models/iris/
 
 echo "installing HCA Airport world.."
-cp -i $CWD/hca_full_setup.world $PX4FIRMDIR/Tools/sitl_gazebo/worlds/ -v
+cp -f $CWD/hca_full_setup.world $PX4FIRMDIR/Tools/sitl_gazebo/worlds/
 
 echo "installing Code files.."
-cp -i $CWD/lidar_test_sub.cpp $PX4ROSDIR/src/px4_ros_com/src/examples/offboard/ -v
-cp -i $CWD/offboard_control.cpp $PX4ROSDIR/src/px4_ros_com/src/examples/offboard/ -v
-cp -i $CWD/vel_ctrl_vec_pub.cpp $PX4ROSDIR/src/px4_ros_com/src/examples/offboard/ -v
-cp -i $CWD/img_proj_depth.py $PX4ROSDIR/src/px4_ros_com/src/examples/offboard/ -v
+cp -f $CWD/lidar_test_sub.cpp $PX4ROSDIR/src/px4_ros_com/src/examples/offboard/
+cp -f $CWD/offboard_control.cpp $PX4ROSDIR/src/px4_ros_com/src/examples/offboard/
+cp -f $CWD/vel_ctrl_vec_pub.cpp $PX4ROSDIR/src/px4_ros_com/src/examples/offboard/
+cp -f $CWD/img_proj_depth.py $PX4ROSDIR/src/px4_ros_com/src/examples/offboard/
 
 echo "building px4_ros_com_ros2.."
 cd $PX4ROSDIR/src/px4_ros_com/scripts/
