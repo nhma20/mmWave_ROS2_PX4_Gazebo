@@ -20,7 +20,7 @@ https://docs.px4.io/master/en/ros/ros2_comm.html
 
 (follow https://docs.px4.io/master/en/dev_setup/dev_env_linux_ubuntu.html#gazebo-jmavsim-and-nuttx-pixhawk-targets during sanity check)
 
-### Install Gazebo HCA worlds/models
+### Install Gazebo HCA worlds/models (optional)
 ```sh
 $ ~/Drones4Energy_SDU_Only_code-master/Tools/simulationAssets$ ./installAssets.sh ~/PX4-Autopilot/
 ```
@@ -87,7 +87,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    $ source ~/px4_ros_com_ros2/install/setup.bash
    $ ros2 run px4_ros_com vel_ctrl_vec_pub
    ```
-10. Simulated drone in Gazebo should arm, takeoff, and fly in a square pattern. May need to restart ```vel_ctrl_vec_pub``` and ```offboard_control``` ros2 runs.
+10. Simulated drone in Gazebo should arm and takeoff. May need to restart ```vel_ctrl_vec_pub``` and ```offboard_control``` ros2 runs.
 
 11. ~/PX4-Autopilot/Tools/sitl_gazebo/models/iris/iris.sdf (or other models) can be edited to include sensors, like 2D lidar.
 
@@ -104,17 +104,16 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    
 4. Add any new ROS2 files to ~/px4_ros_com_ros2/src/px4_ros_com/CMakeLists.txt
 
-5. Check armed? https://github.com/PX4/px4_msgs/blob/ros2/msg/ActuatorArmed.msg
+5. Check if drone armed? https://github.com/PX4/px4_msgs/blob/ros2/msg/ActuatorArmed.msg
 
 6. libignition-common3 error (after software update?) - Copy existing file and rename to match missing file
-7. Difference between ```make px4_sitl_rtps gazebo``` (works) and ```make px4_sitl_rtps gazebo_iris__empty``` (does not work) ?
-8. If gazebo does not open, try running ```gazebo --verbose``` to troubleshoot. ```killall gzserver``` should kill any gazebo instances. Restart PC if all else fails.
-9. inlude both iris.sdf and iris.sdf.jinja?
-10. Implemented laser scanner with Gazebo and ROS2 https://github.com/chapulina/dolly
-11. Make custom sensor plugin http://gazebosim.org/tutorials?cat=guided_i&tut=guided_i5
-12. In ~/px4_ros_com_ros2/src/px4_ros_com/CMakeLists.txt add ```sensor_msgs``` under ```ament_target_dependencies```
-13. After running ```./build_ros2_workspace``` restart all affected executables (micrortps_agent, offboard_control, vel_vec_ctrl_pub). Gazebo PX4 SITL can be left running.
-14. Display simulated camera feed either with rviz2 or
+7. If gazebo does not open, try running ```gazebo --verbose``` to troubleshoot. ```killall gzserver``` should kill any gazebo instances. Restart PC if all else fails.
+8. inlude both iris.sdf and iris.sdf.jinja?
+9. Implemented laser scanner with Gazebo and ROS2 https://github.com/chapulina/dolly
+10. Make custom sensor plugin http://gazebosim.org/tutorials?cat=guided_i&tut=guided_i5
+11. In ~/px4_ros_com_ros2/src/px4_ros_com/CMakeLists.txt add ```sensor_msgs``` under ```ament_target_dependencies```
+12. After running ```./build_ros2_workspace``` restart all affected executables (micrortps_agent, offboard_control, vel_vec_ctrl_pub). Gazebo PX4 SITL can be left running.
+13. Display simulated camera feed either with rviz2 or
    ```sh 
    $ source ~/px4_ros_com_ros2/install/setup.bash
    $ ros2 run image_tools showimage image:=/cable_camera/image_raw
