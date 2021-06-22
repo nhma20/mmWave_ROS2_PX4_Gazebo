@@ -23,6 +23,6 @@ cp -i $CWD/offboard_control.cpp $PX4ROSDIR/src/px4_ros_com/src/examples/offboard
 cp -i $CWD/vel_ctrl_vec_pub.cpp $PX4ROSDIR/src/px4_ros_com/src/examples/offboard/ -v
 cp -i $CWD/img_proj_depth.py $PX4ROSDIR/src/px4_ros_com/src/examples/offboard/ -v
 
-#echo "building px4_ros_com_ros2.."
-#cd $PX4ROSDIR/src/px4_ros_com/scripts/
-#./build_ros2_workspace.bash
+echo "building px4_ros_com_ros2.."
+cd $PX4ROSDIR/src/px4_ros_com/scripts/
+./build_ros2_workspace.bash
