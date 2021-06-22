@@ -73,8 +73,6 @@ git clone https://github.com/PX4/PX4-Autopilot.git --recursive
 bash ./PX4-Autopilot/Tools/setup/ubuntu.sh
 ```
 - Relogin or reboot computer before attempting to build NuttX targets
-@@@@@@@@@@@@@@@@@@@@@@
-
 - Build ROS 2 Workspace
 ```sh
 cd ~
@@ -92,13 +90,11 @@ cd ~/px4_ros_com_ros2/src/px4_ros_com/scripts
 ./build_ros2_workspace.bash
 ```
 
-
-
-(follow https://docs.px4.io/master/en/dev_setup/dev_env_linux_ubuntu.html#gazebo-jmavsim-and-nuttx-pixhawk-targets during sanity check)
-
 ### Install Gazebo HCA worlds/models (optional)
+https://gitlab.drones4energy.dk/obs/Drones4Energy_SDU_Only_code/-/tree/iROS2021/Tools/simulationAssets
 ```sh
-$ ~/Drones4Energy_SDU_Only_code-master/Tools/simulationAssets$ ./installAssets.sh ~/PX4-Autopilot/
+cd Drones4Energy_SDU_Only_code-iROS2021/Tools/simulationAssets
+./installAssets.sh ~/PX4-Autopilot/
 ```
 
 or from ```~/hcaa_pylon_setup/``` copy ```hcaa_pylon_setup``` folder to ```~/PX4-Autopilot/Tools/sitl_gazebo/models/```, and copy ```hca_full_setup.world``` to ```~/PX4-Autopilot/Tools/sitl_gazebo/worlds/```
@@ -107,6 +103,18 @@ Add new worlds/models to ~/PX4-Autopilot/platforms/posix/cmake/sitl_target.cmake
 
 ### Install QGroundControl
 https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.html#ubuntu
+```sh
+sudo usermod -a -G dialout $USER
+sudo apt-get remove modemmanager -y
+sudo apt install gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl -y
+```
+- Download: https://s3-us-west-2.amazonaws.com/qgroundcontrol/latest/QGroundControl.AppImage
+```sh
+cd ~/Downloads/
+chmod +x ./QGroundControl.AppImage
+./QGroundControl.AppImage  (or double click)
+   ```
+### Make install script for files in this repo here
 
 ### Test if all works
 (https://docs.px4.io/master/en/ros/ros2_comm.html#sanity-check-the-installation)
