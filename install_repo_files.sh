@@ -4,7 +4,7 @@ PX4FIRMDIR=$1
 PX4ROSDIR=$2
 CWD=$PWD
 if [[ "$2" == "" ]]; then
-  echo "USAGE: ./install_files.sh /path/to/PX4-Autopilot_root /path/to/px4_ros_com_ros2_root."
+  echo "USAGE: ./install_repo_files.sh /path/to/PX4-Autopilot_root /path/to/px4_ros_com_ros2_root."
   exit
 fi
 
