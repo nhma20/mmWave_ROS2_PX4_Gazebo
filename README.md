@@ -10,13 +10,89 @@ Tested with:
 
 
 ### Install ROS2
-https://docs.ros.org/en/foxy/Installation.html
+https://docs.ros.org/en/foxy/Installation.html or https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html
+- Setup Sources:
+```sh
+sudo apt update && sudo apt install curl gnupg2 lsb-release
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key  -o /usr/share/keyrings/ros-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+```
+- Install ROS 2 packages:
+```sh
+sudo apt update
+sudo apt install ros-foxy-desktop
+```
+
 
 ### Install Gazebo
-http://gazebosim.org/tutorials?tut=ros2_installing&cat=connect_ros
+http://gazebosim.org/tutorials?tut=ros2_installing&cat=connect_ros and http://gazebosim.org/tutorials?tut=install_ubuntu&cat=install
+- Default Gazebo installation:
+```sh
+cd ~
+curl -sSL http://get.gazebosim.org | sh
+```
+- Install gazebo_ros_pkgs
+```sh
+sudo apt install ros-foxy-gazebo-ros-pkgs
+```
 
 ### Install PX4 (ROS2, RTPS, SITL, Gazebo)
 https://docs.px4.io/master/en/ros/ros2_comm.html
+- Foonathan memory:
+```sh
+cd ~
+git clone https://github.com/eProsima/foonathan_memory_vendor.git
+cd foonathan_memory_vendor
+mkdir build && cd build
+cmake ..
+sudo cmake --build . --target install
+```
+- Fast-RTPS (DDS)
+```sh
+cd ~
+git clone --recursive https://github.com/eProsima/Fast-DDS.git -b v2.0.0 ~/FastDDS-2.0.0
+cd ~/FastDDS-2.0.0
+mkdir build && cd build
+cmake -DTHIRDPARTY=ON -DSECURITY=ON ..
+make -j$(nproc --all)
+sudo make install
+```
+- Fast-RTPS-Gen
+```sh
+cd ~
+git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git -b v1.0.4 ~/Fast-RTPS-Gen \
+    && cd ~/Fast-RTPS-Gen \
+    && ./gradlew assemble \
+    && sudo ./gradlew install
+```
+- Check install with ```which fastrtpsgen```
+- Download PX4 Source code and run ```ubuntu.sh``` with no arguments:
+```sh
+cd ~
+git clone https://github.com/PX4/PX4-Autopilot.git --recursive
+bash ./PX4-Autopilot/Tools/setup/ubuntu.sh
+```
+- Relogin or reboot computer before attempting to build NuttX targets
+@@@@@@@@@@@@@@@@@@@@@@
+
+- Build ROS 2 Workspace
+```sh
+cd ~
+mkdir -p ~/px4_ros_com_ros2/src
+```
+- Clone ROS 2 bridge packages ```px4_ros_com``` ```px4_msgs``` (default master branch)
+```sh
+cd ~
+git clone https://github.com/PX4/px4_ros_com.git ~/px4_ros_com_ros2/src/px4_ros_com
+git clone https://github.com/PX4/px4_msgs.git ~/px4_ros_com_ros2/src/px4_msgs
+```
+- Use script to build workspace including two aforementioned packages:
+```sh
+cd ~/px4_ros_com_ros2/src/px4_ros_com/scripts
+./build_ros2_workspace.bash
+```
+
+
 
 (follow https://docs.px4.io/master/en/dev_setup/dev_env_linux_ubuntu.html#gazebo-jmavsim-and-nuttx-pixhawk-targets during sanity check)
 
