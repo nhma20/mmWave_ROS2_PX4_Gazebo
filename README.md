@@ -134,6 +134,10 @@ chmod +x ./install.sh
     ```sh
    $ make px4_sitl_rtps gazebo_iris__d4e_HCAairport
    ```
+   or, for empty world (if no additional worlds/models installed):
+   ```sh
+   $ make px4_sitl_rtps gazebo
+   ```
    
    (syntax: ```make <target> <simulator>_<vehiclemodel>__<world> ```, prepend ```HEADLESS=1``` to launch without GUI)
 
