@@ -114,13 +114,13 @@ set(models
 	iris_opt_flow
 	iris_opt_flow_mockup
 	iris_rplidar
+	iris_rtps px4vision
 	iris_vision
 	nxp_cupcar
 	plane
 	plane_cam
 	plane_catapult
 	plane_lidar
-	px4vision
 	r1_rover
 	rover
 	shell
@@ -133,6 +133,13 @@ set(models
 	typhoon_h480
 	uuv_bluerov2_heavy
 	uuv_hippocampus
+	grass_plane
+	hca_plane
+	Powerline_tempsetup
+	powerpylons
+	hca_temp_powerline
+	hcaa_pylon_setup
+	
 )
 
 set(worlds
@@ -145,6 +152,14 @@ set(worlds
 	warehouse
 	windy
 	yosemite
+	d4e_airportsetup
+	d4e_environment
+	d4e_environment1
+	d4e_env_orientation_test
+	d4e_hca_airport
+	d4e_HCAairport
+	hca_full_pylon_setup
+	hca_full_setup
 )
 
 set(all_posix_vmd_make_targets)
