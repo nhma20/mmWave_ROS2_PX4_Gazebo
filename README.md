@@ -224,6 +224,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    ros2 run image_tools showimage image:=/cable_camera/image_raw
    ```
 14. Add new worlds/models to ~/PX4-Autopilot/platforms/posix/cmake/sitl_target.cmake (Oscar's worlds/models from https://gitlab.drones4energy.dk/obs/Drones4Energy_SDU_Only_code/-/tree/iROS2021/Tools/simulationAssets)
+15. See local packages, and msgs, with: ```ros2 interface packages``` and e.g. ```ros2 interface package px4_msgs```
 
 ### TODO
 0. :green_circle: Install tools 
