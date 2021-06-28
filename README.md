@@ -152,8 +152,8 @@ If same PX4 and px4_ros_com_ros2 roots:
   
 2. On a new terminal, source the ROS 2 workspace and then start the micrortps_agent daemon with UDP as the transport protocol:
    ```sh 
-   $ source ~/px4_ros_com_ros2/install/setup.bash
-   $ micrortps_agent -t UDP
+   source ~/px4_ros_com_ros2/install/setup.bash
+   micrortps_agent -t UDP
    ```
   
 3. On the original terminal (PX4 console) start the micrortps_client daemon with UDP:
@@ -165,8 +165,8 @@ Command 'micrortps_client' failed, returned -1.```)
   
 4. Open a new terminal and start a "listener" using the provided launch file:
    ```sh 
-   $ source ~/px4_ros_com_ros2/install/setup.bash
-   $ ros2 launch px4_ros_com sensor_combined_listener.launch.py
+   source ~/px4_ros_com_ros2/install/setup.bash
+   ros2 launch px4_ros_com sensor_combined_listener.launch.py
    ```
    
 5. Optionally, open QGroundControl which will connect with PX4. From here it is possible to set waypoints and execute missions.
@@ -179,18 +179,18 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 6. Edit offboard_control.cpp to include wanted behavior, add any new files to ~/px4_ros_com_ros2/src/px4_ros_com/CMakeLists.txt.
 7. Build colcon workspace with script:
    ```sh
-   $ cd ~/px4_ros_com_ros2/src/px4_ros_com/scripts
-   $ ./build_ros2_workspace.bash
+   cd ~/px4_ros_com_ros2/src/px4_ros_com/scripts
+   ./build_ros2_workspace.bash
    ```
 8. After building the colcon workspace, and after starting PX4 SITL and both the microRTPS bridge client and agent, in a new terminal start offboard control:
    ```sh 
-   $ source ~/px4_ros_com_ros2/install/setup.bash
-   $ ros2 run px4_ros_com offboard_control
+   source ~/px4_ros_com_ros2/install/setup.bash
+   ros2 run px4_ros_com offboard_control
    ```
 9. In another terminal, start the velocity vector advertiser:
    ```sh 
-   $ source ~/px4_ros_com_ros2/install/setup.bash
-   $ ros2 run px4_ros_com vel_ctrl_vec_pub
+   source ~/px4_ros_com_ros2/install/setup.bash
+   ros2 run px4_ros_com vel_ctrl_vec_pub
    ```
 10. Simulated drone in Gazebo should arm and takeoff. May need to restart ```vel_ctrl_vec_pub``` and ```offboard_control``` ros2 runs.
 
@@ -220,8 +220,8 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 12. After running ```./build_ros2_workspace``` restart all affected executables (micrortps_agent, offboard_control, vel_vec_ctrl_pub). Gazebo PX4 SITL can be left running.
 13. Display simulated camera feed either with rviz2 or
    ```sh 
-   $ source ~/px4_ros_com_ros2/install/setup.bash
-   $ ros2 run image_tools showimage image:=/cable_camera/image_raw
+   source ~/px4_ros_com_ros2/install/setup.bash
+   ros2 run image_tools showimage image:=/cable_camera/image_raw
    ```
 14. Add new worlds/models to ~/PX4-Autopilot/platforms/posix/cmake/sitl_target.cmake (Oscar's worlds/models from https://gitlab.drones4energy.dk/obs/Drones4Energy_SDU_Only_code/-/tree/iROS2021/Tools/simulationAssets)
 
