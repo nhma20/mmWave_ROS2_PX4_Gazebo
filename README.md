@@ -109,7 +109,7 @@ chmod +x ./QGroundControl.AppImage
 ### Install Gazebo HCA worlds/models (optional)
 https://gitlab.drones4energy.dk/obs/Drones4Energy_SDU_Only_code/-/tree/iROS2021/Tools/simulationAssets
 ```sh
-$ ~/Drones4Energy_SDU_Only_code-master/Tools/simulationAssets$ ./installAssets.sh ~/PX4-Autopilot/
+~/Drones4Energy_SDU_Only_code-master/Tools/simulationAssets$ ./installAssets.sh ~/PX4-Autopilot/
 cd Drones4Energy_SDU_Only_code-iROS2021/Tools/simulationAssets
 ./installAssets.sh ~/PX4-Autopilot/
 ```
@@ -132,15 +132,18 @@ If same PX4 and px4_ros_com_ros2 roots:
 (https://docs.px4.io/master/en/ros/ros2_comm.html#sanity-check-the-installation)
 1. Open a new terminal in the root of the PX4 Autopilot project, and then start a PX4 Gazebo simulation using:
    ```sh
-   $ make px4_sitl_rtps gazebo_iris__hca_full_setup
+   cd ~/PX4-Autopilot/
+   ```
+   ```sh
+   make px4_sitl_rtps gazebo_iris__hca_full_setup
    ```
    or, for single cable:
     ```sh
-   $ make px4_sitl_rtps gazebo_iris__d4e_HCAairport
+   make px4_sitl_rtps gazebo_iris__d4e_HCAairport
    ```
    or, for empty world (if no additional worlds/models installed):
    ```sh
-   $ make px4_sitl_rtps gazebo
+   make px4_sitl_rtps gazebo
    ```
    
    (syntax: ```make <target> <simulator>_<vehiclemodel>__<world> ```, prepend ```HEADLESS=1``` to launch without GUI)
