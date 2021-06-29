@@ -224,6 +224,9 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    ```
 14. Add new worlds/models to ~/PX4-Autopilot/platforms/posix/cmake/sitl_target.cmake (Oscar's worlds/models from https://gitlab.drones4energy.dk/obs/Drones4Energy_SDU_Only_code/-/tree/iROS2021/Tools/simulationAssets)
 15. See local packages, and msgs, with: ```ros2 interface packages``` and e.g. ```ros2 interface package px4_msgs```
+16. Camera intrinsic parameters for setting a custom perspective projection matrix (cannot be used with WideAngleCamera since this class uses image stitching from 6 different cameras for achieving a wide field of view). The focal lengths can be computed using focal_length_in_pixels = (image_width_in_pixels * 0.5) / tan(field_of_view_in_degrees * 0.5 * PI/180) (http://sdformat.org/spec?ver=1.7&elem=sensor#lens_intrinsics)
+
+
 
 ### TODO
 0. :green_circle: Install tools 
