@@ -3,6 +3,13 @@
 PX4FIRMDIR=$1
 PX4ROSDIR=$2
 CWD=$PWD
+
+if [[ "$(dirname "$(readlink -f "$0")")" != "$PWD" ]]; then
+  echo "ERROR: call from script directory."
+  exit
+fi
+
+
 if [[ "$2" == "" ]]; then
   echo "USAGE: ./install.sh /path/to/PX4-Autopilot_root /path/to/px4_ros_com_ros2_root."
   exit
