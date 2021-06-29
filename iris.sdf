@@ -103,7 +103,21 @@
               <near>0.02</near>
               <far>300</far>
             </clip -->
-          
+                      
+             
+             
+              <!-- Camera intrinsic parameters for setting a custom perspective projection matrix (cannot be used with WideAngleCamera since this class uses image stitching from 6 different cameras for achieving a wide field of view). The focal lengths can be computed using focal_length_in_pixels = (image_width_in_pixels * 0.5) / tan(field_of_view_in_degrees * 0.5 * PI/180) (http://sdformat.org/spec?ver=1.7&elem=sensor#lens_intrinsics)-->   
+            <!-- lens>
+              <intrinsics>
+                <fx>277</fx>
+                <fy>277</fy>
+                <cx>960</cx>
+                <cy>540</cy>
+                <s>0</s>
+              </intrinsics>
+            </lens -->
+
+            
             <!-- distortion>
               <k1>0.1</k1>
               <k2>0.2</k2>
