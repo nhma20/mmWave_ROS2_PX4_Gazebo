@@ -8,6 +8,7 @@
 #include <iostream>
 #include <chrono>
 #include <math.h>  
+#include <limits>
 
 using namespace std::chrono_literals;
 
@@ -127,21 +128,21 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::LaserSc
 void VelocityControlVectorAdvertiser::OnCameraMsg(const sensor_msgs::msg::Image::SharedPtr _msg){
 	std::cout << "Img received, size: " << _msg->width << "x" << _msg->height << std::endl;
 
-	float img_hfov = 1.3962634;
-	float horProjectionLocation;
+	float img_hfov = 1.3962634016;
+	float h_focal_length = (_msg->width * 0.5) / tan(img_hfov * 0.5 ); // in pixels
 	// publish horisontal pixel where nearest object would be
-	horProjectionLocation = (_msg->width/2) * (this->shortestDistAngle_ / (img_hfov/2));
-	std::cout << "shortestDistAngle_: " << this->shortestDistAngle_ << std::endl;
-	std::cout << "shortestDistAngle_ / (img_hfov/2): " << this->shortestDistAngle_ / (img_hfov/2) << std::endl;
-	std::cout << "horProjectionLocation: " << horProjectionLocation << std::endl;
-	auto float32_msg = std_msgs::msg::Float32();
-	float32_msg.data = horProjectionLocation;
-	this->hor_pix_publisher_->publish(float32_msg);
-	if(abs(horProjectionLocation) < (_msg->width/2)){
-		std::cout << "Display" << std::endl;
-	} else {
-		std::cout << "Do not display" << std::endl;
+	float x_depth = sin(this->shortestDistAngle_) * this->shortestDist_;
+	float y_depth = cos(this->shortestDistAngle_) * this->shortestDist_;
+	float xy_ratio = std::numeric_limits<float>::max(); 
+	if( y_depth != 0 ){
+		xy_ratio = x_depth/y_depth;
 	}
+	float x_px = -1 * xy_ratio * h_focal_length; // -1 to mirror (pinhole stuff)
+	std::cout << "x_px: " << x_px << std::endl;
+	
+	auto float32_msg = std_msgs::msg::Float32();
+	float32_msg.data = x_px;
+	this->hor_pix_publisher_->publish(float32_msg);
 }
 	
 			
