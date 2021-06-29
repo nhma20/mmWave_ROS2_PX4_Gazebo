@@ -122,7 +122,7 @@ or from ```~/hcaa_pylon_setup/``` copy ```hcaa_pylon_setup``` folder to ```~/PX4
 cd ~/mmWave_ROS2_PX4_Gazebo/
 chmod +x ./install.sh
 ```
-If same PX4 and px4_ros_com_ros2 roots:
+Execute install script (from the script directory). If same PX4 and px4_ros_com_ros2 roots:
 ```
 ./install.sh ~/PX4-Autopilot/ ~/px4_ros_com_ros2/
 ```
