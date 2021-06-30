@@ -8,6 +8,7 @@ from sensor_msgs.msg import Image
 import cv2 as cv
 import numpy as np
 import copy
+import matplotlib.pyplot as plt
 
 
 class ImageProjectDepthNode(Node):
@@ -28,28 +29,33 @@ class ImageProjectDepthNode(Node):
 		self.cable_cam_img_subscription_           
 
 	def pixel_val_callback(self, msg):
-		#self.get_logger().info('Horisontal pixel: "%f"' % msg.data)
-		self.horisontal_pixel = msg.data
+		self.horisontal_pixel = msg.data # 1D list of 6220800 elements (1920 x 1080 x 3)	
 		
 	def img_msg_callback(self, msg):
 		self.get_logger().info('Horisontal pixel: "%f"' % self.horisontal_pixel)
-		self.get_logger().info('img width: "%f"' % msg.width) 
-		#blank_image = np.zeros((msg.height,msg.width,3), np.uint8)
-		img = msg.data # 6220800 elements (width x height x channnels)	
-		img_copy = copy.deepcopy(msg.data)
-		print(msg.data[0], msg.data[1], msg.data[2])
-		corrected_y_loc = self.horisontal_pixel + (msg.width/2)
-		for y in range(msg.height):
-			for x in range(msg.width):
-				for channels in range(3):
-					if (abs(x-corrected_y_loc)<20) and (abs(y-(msg.height/2))<20):
-						img_copy[y*msg.width*3+x*3+channels] = 255
-						#print("changing..")
-					else:
-					#	img_copy[y*msg.width*3+x*3+channels] = 0
-					#	print(y*msg.width*3+x*3+channels)
-						pass # keep orignal color
-					
+
+		corrected_y_loc = round(0 + msg.height/2)
+		corrected_x_loc = round(self.horisontal_pixel + (msg.width/2))
+
+		## with deserialization of data 
+		"""np_img = np.frombuffer(msg.data, dtype=np.uint8).reshape(msg.height, msg.width, -1) #deserialize image msg
+		print("np_img shape: ", np_img.shape)
+		rect_start_point = (round(corrected_x_loc-10), round((msg.width/2)-10))
+		rect_end_point = (round(corrected_x_loc+10), round((msg.width/2)+10))
+		color = (255,255,255)
+		thickness = -1 # fill
+		draw_img = cv.rectangle(np_img, rect_start_point, rect_end_point, color, thickness)
+		flat_img = draw_img.flatten().tolist() # very slow"""
+
+
+		## without deserializing data
+		num_channels = 3
+		for y in range(40):
+			for x in range(40):
+				for channel in range(3):
+					msg.data[ msg.width * ((corrected_y_loc-21)+y) * num_channels 
+								+ ((corrected_x_loc-20)+x) * num_channels + channel ] = 255
+
 		img_pub_msg = Image()
 		img_pub_msg.header = std_msgs.msg.Header()
 		img_pub_msg.header.stamp = self.get_clock().now().to_msg()
@@ -59,7 +65,7 @@ class ImageProjectDepthNode(Node):
 		img_pub_msg.encoding = msg.encoding
 		img_pub_msg.is_bigendian = msg.is_bigendian
 		img_pub_msg.step = msg.step
-		img_pub_msg.data = img_copy
+		img_pub_msg.data = msg.data#flat_img#img_copy
 		self.altered_img_publisher_.publish(img_pub_msg)
 
 def main(args=None):
