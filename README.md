@@ -242,7 +242,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    - get pose of drone to mitigate sideways motion when rotated around x or y.
    - use GPS positioning to counteract drift
 9. :green_circle: Use drone mounted simulated camera to get images of overhead cable 
-10. :green_circle: Visualize depth data in camera feed (horizontal direction). Add vertical, draw with numpy instead of for loops
+10. :green_circle: Visualize depth data in camera feed (single point)
 11. :yellow_circle: Investigate occasional drone control loss (velocity vector randomly turns constant?)
 12. :yellow_circle: Implement cable detection AI to filter depth data and align drone yaw wrt. cable
 13. :yellow_circle: Edit sensor plugin to act like mmWave sensor
