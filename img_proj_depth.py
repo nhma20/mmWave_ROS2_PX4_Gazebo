@@ -34,8 +34,8 @@ class ImageProjectDepthNode(Node):
 	def img_msg_callback(self, msg):
 		self.get_logger().info('Horisontal pixel: "%f"' % self.horisontal_pixel)
 
-		corrected_y_loc = round(0 + msg.height/2)
-		corrected_x_loc = round(self.horisontal_pixel + (msg.width/2))
+		corrected_y_loc = (0 + msg.height/2)
+		corrected_x_loc = (self.horisontal_pixel + (msg.width/2))
 
 		## with deserialization of data 
 		"""np_img = np.frombuffer(msg.data, dtype=np.uint8).reshape(msg.height, msg.width, -1) #deserialize image msg
@@ -49,12 +49,14 @@ class ImageProjectDepthNode(Node):
 
 
 		## without deserializing data
+		square_radius = 15
 		num_channels = 3
-		for y in range(40):
-			for x in range(40):
+		for y in range(square_radius*2):
+			for x in range(square_radius*2):
 				for channel in range(3):
-					msg.data[ msg.width * ((corrected_y_loc-21)+y) * num_channels 
-								+ ((corrected_x_loc-20)+x) * num_channels + channel ] = 255
+					msg.data[ round( msg.width * ((corrected_y_loc-((square_radius)-1))+y) * num_channels 
+								+ ((corrected_x_loc-((square_radius)-1))+x) * num_channels + channel ) ] = 255
+
 
 		img_pub_msg = Image()
 		img_pub_msg.header = std_msgs.msg.Header()
