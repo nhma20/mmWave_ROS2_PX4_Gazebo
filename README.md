@@ -243,9 +243,12 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    - use GPS positioning to counteract drift
 9. :green_circle: Use drone mounted simulated camera to get images of overhead cable 
 10. :green_circle: Visualize depth data in camera feed (single point)
-11. :yellow_circle: Investigate occasional drone control loss (velocity vector randomly turns constant?)
-12. :yellow_circle: Implement cable detection AI to filter depth data and align drone yaw wrt. cable
-13. :yellow_circle: Edit sensor plugin to act like mmWave sensor
+
+![Alt text](https://github.com/nhma20/mmWave_ROS2_PX4_Gazebo/blob/main/Pictures/Screenshot_from_2021-06-30_17-39-15.png?raw=true)
+
+12. :yellow_circle: Investigate occasional drone control loss (velocity vector randomly turns constant?)
+13. :yellow_circle: Implement cable detection AI to filter depth data and align drone yaw wrt. cable
+14. :yellow_circle: Edit sensor plugin to act like mmWave sensor
 
 
 
