@@ -7,8 +7,10 @@
 #include <stdlib.h> 
 #include <iostream>
 #include <chrono>
+#include <ctime>    
 #include <math.h>  
 #include <limits>
+
 
 using namespace std::chrono_literals;
 
@@ -45,6 +47,7 @@ class VelocityControlVectorAdvertiser : public rclcpp::Node
 		void OnDepthMsg(const sensor_msgs::msg::LaserScan::SharedPtr _msg);
 		void OnCameraMsg(const sensor_msgs::msg::Image::SharedPtr _msg);
 		void VelocityDroneControl(float xv, float yv, float zv);
+		bool beginHover();
 };
 
 
@@ -90,40 +93,66 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::LaserSc
 	std::string name = "test";
 	std::copy(name.begin(), name.end(), vel_ctrl_vect.name.begin());
 	
+	bool hovering = true; //beginHover();
+
 	float control_distance = 0.5; // desired distance to cable (meters)
 	float control_angle = 0.0; // desired angle to cable (rad)
 	float p_dist = 0.5; // proportional gain for distance controller
 	float p_angle = 3.0; // proportional gain for angle controller
-	if(_msg->ranges[shortestDistIdx] < 10){
-		// create velocity control vector to steer drone towards cable
-		VelocityDroneControl(0, p_angle*(shortestDistIdxAngle-control_angle), -p_dist*(_msg->ranges[shortestDistIdx]-control_distance));
-	
-	} else {	
-		// control drone in square motion if nothing within lidar fov
-		static int callbackscale = 5;
-		std::cout << "CallbackCount" << callback_count << std::endl;
-		if(callback_count < 100*callbackscale){
-			VelocityDroneControl(NAN,NAN,-3.0); // go up
-			std::cout << "START" << std::endl;
-		} else if(callback_count % (100*callbackscale) < 25*callbackscale){
-			VelocityDroneControl(0,3,0); // go east
-			std::cout << "EAST" << std::endl;
-		} else if(callback_count % (100*callbackscale) < 50*callbackscale){
-			VelocityDroneControl(0,0,-3); // go up
-			std::cout << "UP" << std::endl;
-		} else if(callback_count % (100*callbackscale) < 75*callbackscale){
-			VelocityDroneControl(0,-3,0); // go west
-			std::cout << "WEST" << std::endl;
-		} else if(callback_count % (100*callbackscale) > 74*callbackscale){
-			VelocityDroneControl(0,0,3); // go down
-			std::cout << "DOWN" << std::endl;
-		} else{
-			VelocityDroneControl(0,0,0); // do nothing
-		}	
-		callback_count++;
+
+	if(hovering == true){
+		if(_msg->ranges[shortestDistIdx] < 10){
+			// create velocity control vector to steer drone towards cable
+			VelocityDroneControl(0, p_angle*(shortestDistIdxAngle-control_angle), -p_dist*(_msg->ranges[shortestDistIdx]-control_distance));
+		
+		} else {	
+			// control drone in square motion if nothing within lidar fov
+			static int callbackscale = 5;
+			std::cout << "CallbackCount" << callback_count << std::endl;
+			if(callback_count < 100*callbackscale){
+				VelocityDroneControl(NAN,NAN,-3.0); // go up
+				std::cout << "START" << std::endl;
+			} else if(callback_count % (100*callbackscale) < 25*callbackscale){
+				VelocityDroneControl(0,3,0); // go east
+				std::cout << "EAST" << std::endl;
+			} else if(callback_count % (100*callbackscale) < 50*callbackscale){
+				VelocityDroneControl(0,0,-3); // go up
+				std::cout << "UP" << std::endl;
+			} else if(callback_count % (100*callbackscale) < 75*callbackscale){
+				VelocityDroneControl(0,-3,0); // go west
+				std::cout << "WEST" << std::endl;
+			} else if(callback_count % (100*callbackscale) > 74*callbackscale){
+				VelocityDroneControl(0,0,3); // go down
+				std::cout << "DOWN" << std::endl;
+			} else{
+				VelocityDroneControl(0,0,0); // do nothing
+			}	
+			callback_count++;
+		}
 	}
 }
 
+// Gets drone in hovering position. Returns true when done
+bool VelocityControlVectorAdvertiser::beginHover(){
+	static auto start = std::chrono::system_clock::now();
+    auto end = std::chrono::system_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end-start;
+	std::cout << "Elapsed time: " << elapsed_seconds.count() << std::endl;
+	int wait_time_s = 6;
+	if(double(elapsed_seconds.count()) > wait_time_s+3){
+		return 1;
+	}
+	else if(double(elapsed_seconds.count()) > wait_time_s){
+		VelocityDroneControl(0,0,0); // might not be a good idea
+	}
+	else if(double(elapsed_seconds.count()) > 2){
+		VelocityDroneControl( 0, 0, (elapsed_seconds.count()-wait_time_s) );
+	}
+	else{
+		VelocityDroneControl(0,0,0);
+	}
+	return 0;
+}
 
 void VelocityControlVectorAdvertiser::OnCameraMsg(const sensor_msgs::msg::Image::SharedPtr _msg){
 	//std::cout << "Img received, size: " << _msg->width << "x" << _msg->height << std::endl;
