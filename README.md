@@ -145,7 +145,9 @@ Execute install script (from the script directory). If same PX4 and px4_ros_com_
    make px4_sitl_rtps gazebo
    ```
    
-   (syntax: ```make <target> <simulator>_<vehiclemodel>__<world> ```, prepend ```HEADLESS=1``` to launch without GUI)
+   (syntax: ```make <target> <simulator>_<vehiclemodel>__<world> ```
+   prepend ```HEADLESS=1``` to launch without GUI
+   prepend ```PX4_NO_FOLLOW_MODE=1``` to launch without following drone)
 
    Should make and open PX4 in same console, as well as a Gazebo window with chosen model and world
   
