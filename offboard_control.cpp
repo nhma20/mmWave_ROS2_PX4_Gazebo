@@ -114,7 +114,7 @@ public:
 				sensorMsgsCallbacksPrev = sensorMsgsCallbacks;
 			}
 		};
-		timer_ = this->create_wall_timer(100ms, control_callback);
+		timer_ = this->create_wall_timer(50ms, control_callback);
 
 
 		subscription_ = this->create_subscription<px4_msgs::msg::DebugVect>(
@@ -223,6 +223,7 @@ void OffboardControl::publish_trajectory_setpoint(float x, float y, float z, flo
 	msg.vx = vx; 		// in meters/sec
 	msg.vy = vy; 		// in meters/sec
 	msg.vz = vz; 	// in meters/sec
+	RCLCPP_INFO(this->get_logger(),  "vx: %f, vy: %f, vz: %f'", vx, vy, vz);
 	//msg.acceleration	// in meters/sec^2
 	//msg.jerk		// in meters/sec^3
 	//msg.thrust		// normalized thrust vector in NED
