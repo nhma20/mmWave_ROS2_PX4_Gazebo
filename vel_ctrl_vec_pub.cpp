@@ -80,7 +80,8 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::LaserSc
 	// angle compared to straight up from drone
 	float shortestDistIdxAngle = float(shortestDistIdx)*angle_increment - angle_max; 
 	std::cout << "angle: " << shortestDistIdxAngle << std::endl;
-	
+	RCLCPP_INFO(this->get_logger(),  "Dist: %f, Angle: %f'", _msg->ranges[shortestDistIdx], shortestDistIdxAngle);
+
 	this->shortestDist_ = _msg->ranges[shortestDistIdx];
 	this->shortestDistAngle_ = shortestDistIdxAngle;
 	
@@ -89,15 +90,14 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::LaserSc
 	std::string name = "test";
 	std::copy(name.begin(), name.end(), vel_ctrl_vect.name.begin());
 	
+	float control_distance = 0.5; // desired distance to cable (meters)
+	float control_angle = 0.0; // desired angle to cable (rad)
+	float p_dist = 0.5; // proportional gain for distance controller
+	float p_angle = 3.0; // proportional gain for angle controller
 	if(_msg->ranges[shortestDistIdx] < 10){
 		// create velocity control vector to steer drone towards cable
-		if(_msg->ranges[shortestDistIdx] > 1){
-			VelocityDroneControl(0, shortestDistIdxAngle, -0.1*_msg->ranges[shortestDistIdx]);
-		} else if(_msg->ranges[shortestDistIdx] < 1){
-			VelocityDroneControl(0, shortestDistIdxAngle, 0.1*_msg->ranges[shortestDistIdx]);
-		} else {
-			VelocityDroneControl(0,shortestDistIdxAngle,0);
-		}
+		VelocityDroneControl(0, p_angle*(shortestDistIdxAngle-control_angle), -p_dist*(_msg->ranges[shortestDistIdx]-control_distance));
+	
 	} else {	
 		// control drone in square motion if nothing within lidar fov
 		static int callbackscale = 5;
@@ -126,7 +126,7 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::LaserSc
 
 
 void VelocityControlVectorAdvertiser::OnCameraMsg(const sensor_msgs::msg::Image::SharedPtr _msg){
-	std::cout << "Img received, size: " << _msg->width << "x" << _msg->height << std::endl;
+	//std::cout << "Img received, size: " << _msg->width << "x" << _msg->height << std::endl;
 
 	float img_hfov = 1.3962634016;
 	float h_focal_length = (_msg->width * 0.5) / tan(img_hfov * 0.5 ); // in pixels
@@ -138,7 +138,7 @@ void VelocityControlVectorAdvertiser::OnCameraMsg(const sensor_msgs::msg::Image:
 		xy_ratio = x_depth/y_depth;
 	}
 	float x_px = -1 * xy_ratio * h_focal_length; // -1 to mirror (pinhole stuff)
-	std::cout << "x_px: " << x_px << std::endl;
+	//std::cout << "x_px: " << x_px << std::endl;
 	
 	auto float32_msg = std_msgs::msg::Float32();
 	float32_msg.data = x_px;
