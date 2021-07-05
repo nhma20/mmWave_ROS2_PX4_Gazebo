@@ -245,12 +245,12 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    - get pose of drone to mitigate sideways motion when rotated around x or y.
    - use GPS positioning to counteract drift
 9. :green_circle: Use drone mounted simulated camera to get images of overhead cable 
-10. :green_circle: Visualize depth data in camera feed (TODO: project all pointcloud points)
+10. :green_circle: Visualize depth data in camera feed
 
 ![Alt text](https://github.com/nhma20/mmWave_ROS2_PX4_Gazebo/blob/main/Pictures/Screenshot_from_2021-07-05_20-52-58.png?raw=true)
 
 12. :green_circle: Investigate occasional drone control loss
-13. :green_circle: Make module that turns 2d lidar data into noisy pointcloud to prepare for mmwave integration (TODO: change projection modules to take pcl as input)
+13. :green_circle: Make module that turns 2d lidar data into noisy pointcloud to prepare for mmwave integration
 14. :yellow_circle: Tracking of points in pointcloud (kalman?)
 15. :yellow_circle: Implement cable detection AI to filter depth data and align drone yaw wrt. cable
 
