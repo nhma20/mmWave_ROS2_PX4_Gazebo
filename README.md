@@ -250,8 +250,9 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 ![Alt text](https://github.com/nhma20/mmWave_ROS2_PX4_Gazebo/blob/main/Pictures/Screenshot_from_2021-06-30_17-39-15.png?raw=true)
 
 12. :green_circle: Investigate occasional drone control loss
-13. :green_circle: Make module that turns 2d lidar data into pointcloud to prepare for mmwave integration (TODO: change projection and control modules to take pcl as input, add "mmwave noise")
-14. :yellow_circle: Implement cable detection AI to filter depth data and align drone yaw wrt. cable
+13. :green_circle: Make module that turns 2d lidar data into noisy pointcloud to prepare for mmwave integration (TODO: change projection modules to take pcl as input)
+14. :yellow_circle: Tracking of points in pointcloud (kalman?)
+15. :yellow_circle: Implement cable detection AI to filter depth data and align drone yaw wrt. cable
 
 
 
