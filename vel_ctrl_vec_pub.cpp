@@ -65,6 +65,7 @@ class VelocityControlVectorAdvertiser : public rclcpp::Node
 		void OnCameraMsg(const sensor_msgs::msg::Image::SharedPtr _msg);
 		void lidar_to_mmwave_pcl(const sensor_msgs::msg::LaserScan::SharedPtr _msg);
 		void VelocityDroneControl(float xv, float yv, float zv);
+		float constrain(float val, float lo_lim, float hi_lim);
 		bool beginHover();
 };
 
@@ -142,12 +143,12 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::PointCl
 
 	float control_distance = 0.5; // desired distance to cable (meters)
 	float control_angle = 0.0; // desired angle to cable (rad)
-	float kp_dist = 1.5; // proportional gain for distance controller
-	float kp_angle = 5.0; // proportional gain for angle controller
-	float kd_dist = 1.5;//0.1; // derivative gain for distance controller
-	float kd_angle = 0.5;//0.1; // derivative gain for angle controller
-	float ki_dist = 0.05;//0.01; // integral gain for distance controller
-	float ki_angle = 0.05;//0.01; // integral gain for angle controller
+	float kp_dist = 0.5; // proportional gain for distance controller - nonoise 1.5
+	float kp_angle = 3.0; // proportional gain for angle controller - nonoise 5.0
+	float kd_dist = 0.05; // derivative gain for distance controller - nonoise 1.5
+	float kd_angle = 0.05; // derivative gain for angle controller - nonoise 0.5
+	float ki_dist = 0.02; // integral gain for distance controller - nonoise 0.05
+	float ki_angle = 0.05; // integral gain for angle controller - nonoise 0.05
 
 	/*auto time
 	static auto start = std::chrono::system_clock::now();
@@ -179,9 +180,9 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::PointCl
 	if(pcl_size > 0){
 		std::cout << "Points: " << pcl_size << std::endl;
 		// create velocity control vector to steer drone towards cable
-		VelocityDroneControl((kp_angle*(shortest_dist_angle_yz-control_angle) + kd_angle*d_angle_yz + ki_angle*i_angle_yz), 
-							(kp_angle*(shortest_dist_angle_xz-control_angle) + kd_angle*d_angle_xz + ki_angle*i_angle_xz), 
-							(-kp_dist*(shortest_dist-control_distance) + (-kd_dist*d_dist) + (-ki_dist*i_dist)));
+		VelocityDroneControl(constrain(kp_angle*(shortest_dist_angle_yz-control_angle) + kd_angle*d_angle_yz + ki_angle*i_angle_yz,-1,1), 
+							constrain(kp_angle*(shortest_dist_angle_xz-control_angle) + kd_angle*d_angle_xz + ki_angle*i_angle_xz,-1,1), 
+							constrain(-kp_dist*(shortest_dist-control_distance) + (-kd_dist*d_dist) + (-ki_dist*i_dist),-1,1));
 		//VelocityDroneControl(0, kp_angle*(shortest_dist_angle_xz-control_angle), -kp_dist*(shortest_dist-control_distance));
 	} else {	
 		std::cout << "no points in pointcloud msg" << std::endl;
@@ -206,6 +207,22 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::PointCl
 			VelocityDroneControl(0,0,0); // do nothing
 		}	
 		callback_count++;
+	}
+}
+
+
+// constrains value to be between limits
+float VelocityControlVectorAdvertiser::constrain(float val, float lo_lim, float hi_lim){
+	if (val < lo_lim)
+	{
+		return lo_lim;
+	}
+	else if (val > hi_lim)
+	{
+		return hi_lim;
+	}
+	else{
+		return val;
 	}
 }
 
@@ -322,10 +339,25 @@ void VelocityControlVectorAdvertiser::lidar_to_mmwave_pcl(const sensor_msgs::msg
 	std::vector<float> pcl_x;
 	std::vector<float> pcl_y;
 	std::vector<float> pcl_z;
+
+	// set random seed once
+	static bool seeded = false;
+	if (seeded == false)
+	{
+		srand (1);
+	}
+	seeded = true;
+	// generate noise
+	float amplitude = 0.05;
+	float x_noise = -amplitude + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(amplitude-(-amplitude))));
+	float y_noise = -amplitude + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(amplitude-(-amplitude))));
+	float z_noise = -amplitude + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(amplitude-(-amplitude))));
+	// convert to xyz (including noise)
+	std::cout << x_noise << std::endl;
 	for(int i = 0; i<objects_dist.size(); i++){
-		pcl_x.push_back( sin(object_center_angls.at(i)) * object_center_dists.at(i) );
-		pcl_y.push_back( sin(0) * object_center_dists.at(i) );
-		pcl_z.push_back( cos(object_center_angls.at(i)) * object_center_dists.at(i) );
+		pcl_x.push_back( sin(object_center_angls.at(i)) * object_center_dists.at(i) + x_noise*object_center_dists.at(i));
+		pcl_y.push_back( sin(			0			) * object_center_dists.at(i) 	+ y_noise*object_center_dists.at(i));
+		pcl_z.push_back( cos(object_center_angls.at(i)) * object_center_dists.at(i) + z_noise*object_center_dists.at(i));
 	}
 
 	// create PointCloud2 msg
