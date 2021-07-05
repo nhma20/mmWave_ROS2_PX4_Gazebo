@@ -32,10 +32,10 @@ class ImageProjectDepthNode(Node):
 		self.horisontal_pixel = msg.data # 1D list of 6220800 elements (1920 x 1080 x 3)	
 		
 	def img_msg_callback(self, msg):
-		self.get_logger().info('Horisontal pixel: "%f"' % self.horisontal_pixel)
-
 		corrected_y_loc = (0 + msg.height/2)
 		corrected_x_loc = (self.horisontal_pixel + (msg.width/2))
+
+		self.get_logger().info('\n Horisontal pixel: "%f" \n Vertical pixel: "%f"' % (corrected_x_loc, corrected_y_loc))
 
 		## with deserialization of data 
 		"""np_img = np.frombuffer(msg.data, dtype=np.uint8).reshape(msg.height, msg.width, -1) #deserialize image msg
@@ -54,8 +54,9 @@ class ImageProjectDepthNode(Node):
 		for y in range(square_radius*2):
 			for x in range(square_radius*2):
 				for channel in range(3):
-					msg.data[ round( msg.width * ((corrected_y_loc-((square_radius)-1))+y) * num_channels 
-								+ ((corrected_x_loc-((square_radius)-1))+x) * num_channels + channel ) ] = 255
+					if(corrected_x_loc > 0 and corrected_x_loc < msg.width and corrected_y_loc > 0 and corrected_y_loc < msg.height):
+						msg.data[ round( msg.width * ((corrected_y_loc-((square_radius)-1))+y) * num_channels 
+									+ ((corrected_x_loc-((square_radius)-1))+x) * num_channels + channel ) ] = 255
 
 
 		img_pub_msg = Image()
