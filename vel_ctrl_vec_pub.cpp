@@ -143,11 +143,11 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::PointCl
 
 	float control_distance = 0.5; // desired distance to cable (meters)
 	float control_angle = 0.0; // desired angle to cable (rad)
-	float kp_dist = 0.5; // proportional gain for distance controller - nonoise 1.5
-	float kp_angle = 3.0; // proportional gain for angle controller - nonoise 5.0
+	float kp_dist = 0.3; // proportional gain for distance controller - nonoise 1.5
+	float kp_angle = 4.0; // proportional gain for angle controller - nonoise 5.0
 	float kd_dist = 0.05; // derivative gain for distance controller - nonoise 1.5
 	float kd_angle = 0.05; // derivative gain for angle controller - nonoise 0.5
-	float ki_dist = 0.02; // integral gain for distance controller - nonoise 0.05
+	float ki_dist = 0.01; // integral gain for distance controller - nonoise 0.05
 	float ki_angle = 0.05; // integral gain for angle controller - nonoise 0.05
 
 	/*auto time
@@ -349,15 +349,15 @@ void VelocityControlVectorAdvertiser::lidar_to_mmwave_pcl(const sensor_msgs::msg
 	seeded = true;
 	// generate noise
 	float amplitude = 0.05;
-	float x_noise = -amplitude + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(amplitude-(-amplitude))));
-	float y_noise = -amplitude + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(amplitude-(-amplitude))));
-	float z_noise = -amplitude + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(amplitude-(-amplitude))));
+	float noise;
 	// convert to xyz (including noise)
-	std::cout << x_noise << std::endl;
 	for(int i = 0; i<objects_dist.size(); i++){
-		pcl_x.push_back( sin(object_center_angls.at(i)) * object_center_dists.at(i) + x_noise*object_center_dists.at(i));
-		pcl_y.push_back( sin(			0			) * object_center_dists.at(i) 	+ y_noise*object_center_dists.at(i));
-		pcl_z.push_back( cos(object_center_angls.at(i)) * object_center_dists.at(i) + z_noise*object_center_dists.at(i));
+		noise = -amplitude + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(amplitude-(-amplitude))));
+		pcl_x.push_back( sin(object_center_angls.at(i)) * object_center_dists.at(i) + noise*object_center_dists.at(i));
+		noise = -amplitude + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(amplitude-(-amplitude))));
+		pcl_y.push_back( sin(			0			) * object_center_dists.at(i) 	+ noise*object_center_dists.at(i));
+		noise = -amplitude + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(amplitude-(-amplitude))));
+		pcl_z.push_back( cos(object_center_angls.at(i)) * object_center_dists.at(i) + noise*object_center_dists.at(i));
 	}
 
 	// create PointCloud2 msg
