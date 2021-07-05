@@ -131,7 +131,7 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::PointCl
 		RCLCPP_INFO(this->get_logger(),  "\n Dist: %f, \n XZ Angle: %f, \n YX Angle: %f", shortest_dist, shortest_dist_angle_xz, shortest_dist_angle_yz);
 
 	} else{	
-		RCLCPP_INFO(this->get_logger(),  "No points in poincloud");
+		RCLCPP_INFO(this->get_logger(),  "No points in pointcloud");
 	}
 
 	auto vel_ctrl_vect = px4_msgs::msg::DebugVect();
@@ -143,12 +143,12 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::PointCl
 
 	float control_distance = 0.5; // desired distance to cable (meters)
 	float control_angle = 0.0; // desired angle to cable (rad)
-	float kp_dist = 0.3; // proportional gain for distance controller - nonoise 1.5
-	float kp_angle = 4.0; // proportional gain for angle controller - nonoise 5.0
-	float kd_dist = 0.05; // derivative gain for distance controller - nonoise 1.5
-	float kd_angle = 0.05; // derivative gain for angle controller - nonoise 0.5
+	float kp_dist = 0.5; // proportional gain for distance controller - nonoise 1.5
+	float kp_angle = 5.0; // proportional gain for angle controller - nonoise 5.0
+	float kd_dist = 0.015; // derivative gain for distance controller - nonoise 1.5
+	float kd_angle = 0.0005; // derivative gain for angle controller - nonoise 0.5
 	float ki_dist = 0.01; // integral gain for distance controller - nonoise 0.05
-	float ki_angle = 0.05; // integral gain for angle controller - nonoise 0.05
+	float ki_angle = 0.01; // integral gain for angle controller - nonoise 0.05
 
 	/*auto time
 	static auto start = std::chrono::system_clock::now();
@@ -180,12 +180,11 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::PointCl
 	if(pcl_size > 0){
 		std::cout << "Points: " << pcl_size << std::endl;
 		// create velocity control vector to steer drone towards cable
-		VelocityDroneControl(constrain(kp_angle*(shortest_dist_angle_yz-control_angle) + kd_angle*d_angle_yz + ki_angle*i_angle_yz,-1,1), 
-							constrain(kp_angle*(shortest_dist_angle_xz-control_angle) + kd_angle*d_angle_xz + ki_angle*i_angle_xz,-1,1), 
+		VelocityDroneControl(constrain(kp_angle*(shortest_dist_angle_yz-control_angle) + kd_angle*d_angle_yz + ki_angle*i_angle_yz,-0.75,0.75), 
+							constrain(kp_angle*(shortest_dist_angle_xz-control_angle) + kd_angle*d_angle_xz + ki_angle*i_angle_xz,-3,3), 
 							constrain(-kp_dist*(shortest_dist-control_distance) + (-kd_dist*d_dist) + (-ki_dist*i_dist),-1,1));
 		//VelocityDroneControl(0, kp_angle*(shortest_dist_angle_xz-control_angle), -kp_dist*(shortest_dist-control_distance));
 	} else {	
-		std::cout << "no points in pointcloud msg" << std::endl;
 		// control drone in square motion if nothing within lidar fov
 		static int callbackscale = 5;
 		if(callback_count < 100*callbackscale){
