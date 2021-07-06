@@ -173,29 +173,49 @@ Command 'micrortps_client' failed, returned -1.```)
 5. Optionally, open QGroundControl which will connect with PX4. From here it is possible to set waypoints and execute missions.
 
 
-### ROS2 offboard control
+### Launch all
 https://docs.px4.io/master/en/ros/ros2_offboard_control.html
 https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_control.cpp
 
-6. Edit offboard_control.cpp to include wanted behavior, add any new files to ~/px4_ros_com_ros2/src/px4_ros_com/CMakeLists.txt.
-7. Build colcon workspace with script:
+0. If offboard_control.cpp or other files have been edited, re-run ```install.sh``` script (add new files to script and CMakeLists.txt):
    ```sh
-   cd ~/px4_ros_com_ros2/src/px4_ros_com/scripts
-   ./build_ros2_workspace.bash
+   cd ~/mmWave_ROS2_PX4_Gazebo/
+   ( chmod +x ./install.sh )
+   ./install.sh
    ```
-8. After building the colcon workspace, and after starting PX4 SITL and both the microRTPS bridge client and agent, in a new terminal start offboard control:
+1. Launch PX4 SITL:
+   ```sh
+    make px4_sitl_rtps gazebo_iris__hca_full_setup
+   ```
+   Without Gazebo GUI:
+   ```sh
+    HEADLESS=1 make px4_sitl_rtps gazebo_iris__hca_full_setup
+   ```
+   Without drone following:
+   ```sh
+    PX4_NO_FOLLOW_MODE=1 make px4_sitl_rtps gazebo_iris__hca_full_setup
+   ```
+   After PX4 SITL fully launched, might need to manually start microRTPS client in same terminal:
+   ```sh
+    micrortps_client start -t UDP
+   ```
+   Will fail and return -1 if already running.
+2. In a new terminal start microRTPS agent and offboard control:
    ```sh 
    source ~/px4_ros_com_ros2/install/setup.bash
-   ros2 run px4_ros_com offboard_control
+   micrortps_agent start -t UDP & ros2 run px4_ros_com offboard_control 
    ```
-9. In another terminal, start the velocity vector advertiser:
+3. In another terminal, start the velocity vector advertiser, lidar to mmwave converter, and 3d to 2d projection nodes:
    ```sh 
    source ~/px4_ros_com_ros2/install/setup.bash
-   ros2 run px4_ros_com vel_ctrl_vec_pub
+   ros2 launch ~/mmWave_ROS2_PX4_Gazebo/launch/simulate_pointcloud_control_launch.py 
    ```
-10. Simulated drone in Gazebo should arm and takeoff. May need to restart ```vel_ctrl_vec_pub``` and ```offboard_control``` ros2 runs.
+4. Simulated drone in Gazebo should arm and takeoff. May need to restart ```vel_ctrl_vec_pub``` and ```offboard_control``` ros2 runs.
 
-11. ~/PX4-Autopilot/Tools/sitl_gazebo/models/iris/iris.sdf (or other models) can be edited to include sensors, like 2D lidar.
+5. Visualize simulated data in rviz2:
+   ```sh 
+   rviz2 ~/mmWave_ROS2_PX4_Gazebo/3d_and_2d_pointcloud_rgb.rviz 
+   ```
 
 
 ### MISC
@@ -219,7 +239,8 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 10. Make custom sensor plugin http://gazebosim.org/tutorials?cat=guided_i&tut=guided_i5
 11. In ~/px4_ros_com_ros2/src/px4_ros_com/CMakeLists.txt add ```sensor_msgs``` under ```ament_target_dependencies```
 12. After running ```./build_ros2_workspace``` restart all affected executables (micrortps_agent, offboard_control, vel_vec_ctrl_pub). Gazebo PX4 SITL can be left running.
-13. Display simulated camera feed either with rviz2 or
+13. iris.sdf (or other models) can be edited to include sensors, like 2D lidar.
+14. Display simulated camera feed either with rviz2 or
    ```sh 
    source ~/px4_ros_com_ros2/install/setup.bash
    ros2 run image_tools showimage image:=/cable_camera/image_raw
