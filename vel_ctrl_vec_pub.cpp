@@ -131,7 +131,7 @@ void VelocityControlVectorAdvertiser::OnDepthMsg(const sensor_msgs::msg::PointCl
 		RCLCPP_INFO(this->get_logger(),  "\n Dist: %f, \n XZ Angle: %f, \n YX Angle: %f", shortest_dist, shortest_dist_angle_xz, shortest_dist_angle_yz);
 
 	} else{	
-		RCLCPP_INFO(this->get_logger(),  "No points in pointcloud");
+		RCLCPP_INFO(this->get_logger(),  "\n No points in pointcloud");
 	}
 
 	auto vel_ctrl_vect = px4_msgs::msg::DebugVect();
