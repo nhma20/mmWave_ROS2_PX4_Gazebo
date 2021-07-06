@@ -185,6 +185,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    ```
 1. Launch PX4 SITL:
    ```sh
+    cd ~/PX4-Autopilot/ 
     make px4_sitl_rtps gazebo_iris__hca_full_setup
    ```
    Without Gazebo GUI:
