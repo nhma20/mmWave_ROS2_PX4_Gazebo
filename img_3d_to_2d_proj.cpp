@@ -36,6 +36,10 @@ class DepthToImageProjection : public rclcpp::Node
 			std::bind(&DepthToImageProjection::OnCameraMsg, this, std::placeholders::_1));
 		}
 
+		~DepthToImageProjection() {
+			RCLCPP_INFO(this->get_logger(),  "Shutting down img_3d_to_2d_projection..");
+		}
+
 	private:
 		rclcpp::TimerBase::SharedPtr timer_;
 		rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr proj_img_publisher_;
