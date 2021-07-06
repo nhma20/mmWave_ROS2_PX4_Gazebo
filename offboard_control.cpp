@@ -171,7 +171,6 @@ void OffboardControl::OnVelVect(const px4_msgs::msg::DebugVect::UniquePtr msg) {
 	} else {
 		OffboardControl::sensorMsgsCallbacks = 0;
 	}
-	//RCLCPP_INFO(this->get_logger(),  "var: vx: %f, vy: %f, vz: %f'", msg->x, msg->y, msg->y);
 }
 
 /**
@@ -223,7 +222,7 @@ void OffboardControl::publish_trajectory_setpoint(float x, float y, float z, flo
 	msg.vx = vx; 		// in meters/sec
 	msg.vy = vy; 		// in meters/sec
 	msg.vz = vz; 	// in meters/sec
-	RCLCPP_INFO(this->get_logger(),  "vx: %f, vy: %f, vz: %f'", vx, vy, vz);
+	RCLCPP_INFO(this->get_logger(),  "\n Velocity vector: \n vx: %f, vy: %f, vz: %f'", vx, vy, vz);
 	//msg.acceleration	// in meters/sec^2
 	//msg.jerk		// in meters/sec^3
 	//msg.thrust		// normalized thrust vector in NED
