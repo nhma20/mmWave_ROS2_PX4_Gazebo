@@ -49,14 +49,12 @@ class DepthToImageProjection : public rclcpp::Node
 
 		void OnDepthMsg(const sensor_msgs::msg::PointCloud2::SharedPtr _msg);
 		void OnCameraMsg(const sensor_msgs::msg::Image::SharedPtr _msg);
-		float constrain(float val, float lo_lim, float hi_lim);
 };
 
 
 
 // mmwave message callback function
 void DepthToImageProjection::OnDepthMsg(const sensor_msgs::msg::PointCloud2::SharedPtr _msg){
-
 	// read PointCloud2 msg data
 	int pcl_size = _msg->width;
 	uint8_t *ptr = _msg->data.data();
@@ -71,7 +69,6 @@ void DepthToImageProjection::OnDepthMsg(const sensor_msgs::msg::PointCloud2::Sha
 		pcl_z.push_back(*(reinterpret_cast<float*>(ptr + 8)));
 		ptr += POINT_STEP;
 	}
-
 	float closest_dist = std::numeric_limits<float>::max(); 
 	float current_dist = 0;
 	int closest_dist_idx = 0;
@@ -101,23 +98,6 @@ void DepthToImageProjection::OnDepthMsg(const sensor_msgs::msg::PointCloud2::Sha
 }
 
 
-// constrains value to be between limits
-float DepthToImageProjection::constrain(float val, float lo_lim, float hi_lim){
-	if (val < lo_lim)
-	{
-		return lo_lim;
-	}
-	else if (val > hi_lim)
-	{
-		return hi_lim;
-	}
-	else{
-		return val;
-	}
-}
-
-
-
 // calculate pixel coordinates for 3d->2d projection
 void DepthToImageProjection::OnCameraMsg(const sensor_msgs::msg::Image::SharedPtr _msg){
 	float img_hfov = 1.3962634016;
@@ -125,6 +105,7 @@ void DepthToImageProjection::OnCameraMsg(const sensor_msgs::msg::Image::SharedPt
 	// find horisontal and vertical pixel where nearest object would be
 	std::vector<float> x_px_vec;
 	std::vector<float> y_px_vec;
+
 	for (int i = 0; i < this->objects_dists.size(); i++)
 	{
 		// horizontal pixel
@@ -145,14 +126,20 @@ void DepthToImageProjection::OnCameraMsg(const sensor_msgs::msg::Image::SharedPt
 		}
 		y_px_vec.push_back( -1 * xy_ratio * h_focal_length + _msg->height/2); // -1 to mirror (pinhole stuff)
 	}
+	if (this->objects_dists.size() > 0)
+	{
+		RCLCPP_INFO(this->get_logger(),  "\n Shortest dist pixel: \n x_px: %f, \n y_px: %f", x_px_vec.at(this->closest_idx), y_px_vec.at(this->closest_idx));
+	}
+	else {
+		RCLCPP_INFO(this->get_logger(),  "\n No points in pointcloud");
 
-	RCLCPP_INFO(this->get_logger(),  "\n Shortest dist pixel: \n x_px: %f, \n y_px: %f", x_px_vec.at(this->closest_idx), y_px_vec.at(this->closest_idx));
+	}
+	
 
-	int square_radius = 15; // size of drawn square
+	int square_radius = 15; // "radius" of drawn square
 	int square_diameter = square_radius*2;
 	int num_channels = 3; // rgb
 	// draw squares
-	//int i = this->closest_idx;
 	for (int i = 0; i < this->objects_dists.size(); i++){
 		for (int y = 0; y < square_diameter; y++){
 			for (int x = 0; x < square_diameter; x++){
