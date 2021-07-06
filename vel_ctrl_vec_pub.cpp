@@ -47,6 +47,11 @@ class VelocityControlVectorAdvertiser : public rclcpp::Node
 			std::bind(&VelocityControlVectorAdvertiser::OnCameraMsg, this, std::placeholders::_1));
 		}
 
+		~VelocityControlVectorAdvertiser() {
+			RCLCPP_INFO(this->get_logger(),  "Shutting down vel_ctrl_vect_advertiser..");
+		}
+
+
 	private:
 		rclcpp::TimerBase::SharedPtr timer_;
 		rclcpp::Publisher<px4_msgs::msg::DebugVect>::SharedPtr publisher_;
