@@ -102,7 +102,6 @@ custom_executable(examples/listeners vehicle_gps_position_listener)
 custom_executable(examples/advertisers debug_vect_advertiser)
 custom_executable(examples/offboard offboard_control)
 custom_executable(examples/offboard vel_ctrl_vec_pub)
-custom_executable(examples/offboard lidar_test_sub)
 custom_executable(examples/offboard img_3d_to_2d_proj)
 custom_executable(examples/offboard lidar_to_mmwave)
 
