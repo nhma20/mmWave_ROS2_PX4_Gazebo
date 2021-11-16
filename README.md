@@ -252,6 +252,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 17. Drone spawn coordinates set in ~/PX4-Autopilot/Tools/sitl_run.sh ?
 18. ```*** No rule to make target '/opt/ros/foxy/lib/libfastrtps.so.2.0.2', needed by 'libpx4_msgs__rosidl_typesupport_fastrtps_cpp.so'.  Stop.```
 Fixed by renaming closest libfastrtps.so.x.y.z to libfastrtps.so.2.0.2.
+19. Dependency errors with PX4, like ´´´ninja: error: '/usr/lib/x86_64-linux-gnu/libsdformat9.so.9.6.1', needed by 'libmav_msgs.so', missing and no known rule to make it´´´ may be solved by a PX4 reinstall (remember worlds, models, cmake files etc. must be also be reinstalled into new PX4).
 
 
 
