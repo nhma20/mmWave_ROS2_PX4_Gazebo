@@ -183,6 +183,10 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    ( chmod +x ./install.sh )
    ./install.sh
    ```
+If same PX4 and px4_ros_com_ros2 roots:
+```
+./install.sh ~/PX4-Autopilot/ ~/px4_ros_com_ros2/
+```
 1. Launch PX4 SITL:
    ```sh
     cd ~/PX4-Autopilot/ 
