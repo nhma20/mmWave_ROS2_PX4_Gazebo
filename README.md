@@ -257,7 +257,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 18. ```*** No rule to make target '/opt/ros/foxy/lib/libfastrtps.so.2.0.2', needed by 'libpx4_msgs__rosidl_typesupport_fastrtps_cpp.so'.  Stop.```
 Fixed by renaming closest libfastrtps.so.x.y.z to libfastrtps.so.2.0.2.
 19. Dependency errors with PX4, like ```ninja: error: '/usr/lib/x86_64-linux-gnu/libsdformat9.so.9.6.1', needed by 'libmav_msgs.so', missing and no known rule to make it``` may be solved by a PX4 reinstall (remember worlds, models, cmake files etc. must be also be reinstalled into new PX4).
-20. If drone enters failsafe when starting offboard_control, ```param set COM_RCL_EXCEPT 4``` in the PX4 console may solve this.
+20. If drone enters failsafe when starting offboard_control, ```param set COM_RCL_EXCEPT 4``` in the PX4 console may solve this. Else, try manually publish few setpoints to fmu/manual_control_setpoint/in and then start offboard mode.
 21. Showing videos in readme: Just drag and drop your image/video from your local pc to github readme in editable mode.
 
 
