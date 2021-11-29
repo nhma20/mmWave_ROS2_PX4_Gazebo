@@ -135,7 +135,7 @@ Execute install script (from the script directory). If same PX4 and px4_ros_com_
    cd ~/PX4-Autopilot/
    ```
    ```sh
-   make px4_sitl_rtps gazebo_iris__hca_full_setup
+   make px4_sitl_rtps gazebo_iris__hca_full_pylon_setup
    ```
    or, for single cable:
     ```sh
@@ -191,15 +191,15 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 1. Launch PX4 SITL:
    ```sh
     cd ~/PX4-Autopilot/ 
-    make px4_sitl_rtps gazebo_iris__hca_full_setup
+    make px4_sitl_rtps gazebo_iris__hca_full_pylon_setup
    ```
    Without Gazebo GUI:
    ```sh
-    HEADLESS=1 make px4_sitl_rtps gazebo_iris__hca_full_setup
+    HEADLESS=1 make px4_sitl_rtps gazebo_iris__hca_full_pylon_setup
    ```
    Without drone following:
    ```sh
-    PX4_NO_FOLLOW_MODE=1 make px4_sitl_rtps gazebo_iris__hca_full_setup
+    PX4_NO_FOLLOW_MODE=1 make px4_sitl_rtps gazebo_iris__hca_full_pylon_setup
    ```
    After PX4 SITL fully launched, might need to manually start microRTPS client in same terminal:
    ```sh
