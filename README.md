@@ -203,19 +203,20 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
     micrortps_client start -t UDP
    ```
    Will fail and return -1 if already running.
-2. In a new terminal start microRTPS agent and offboard control:
+2. Open QGroundControl   
+3. In a new terminal start microRTPS agent and offboard control:
    ```sh 
    source ~/px4_ros_com_ros2/install/setup.bash
    micrortps_agent start -t UDP & ros2 run px4_ros_com offboard_control 
    ```
-3. In another terminal, start the velocity vector advertiser, lidar to mmwave converter, and 3d to 2d projection nodes:
+4. In another terminal, start the velocity vector advertiser, lidar to mmwave converter, and 3d to 2d projection nodes:
    ```sh 
    source ~/px4_ros_com_ros2/install/setup.bash
    ros2 launch ~/mmWave_ROS2_PX4_Gazebo/launch/simulate_pointcloud_control_launch.py 
    ```
-4. Simulated drone in Gazebo should arm and takeoff. May need to restart ```vel_ctrl_vec_pub``` and ```offboard_control``` ros2 runs.
+5. Simulated drone in Gazebo should arm and takeoff. May need to restart ```vel_ctrl_vec_pub``` and ```offboard_control``` ros2 runs.
 
-5. Visualize simulated data in rviz2:
+6. Visualize simulated data in rviz2:
    ```sh 
    rviz2 ~/mmWave_ROS2_PX4_Gazebo/3d_and_2d_pointcloud_rgb.rviz 
    ```
