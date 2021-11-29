@@ -81,6 +81,7 @@ void LidarToMmwave::lidar_to_mmwave_pcl(const sensor_msgs::msg::LaserScan::Share
 				group_dist += _msg->ranges[i];
 				group_angl += float(i)*angle_increment - angle_max;
 			}
+			// Group object if current and next ray almost same distance
 			if( abs(_msg->ranges[i+1] - _msg->ranges[i]) < 0.1 ){
 				//std::cout << "Object more than one beam wide" << std::endl;
 				group_dist += _msg->ranges[i+1];
@@ -88,9 +89,12 @@ void LidarToMmwave::lidar_to_mmwave_pcl(const sensor_msgs::msg::LaserScan::Share
 				grouped_previous++;
 			}
 			else{
-				//std::cout << "End of object detected, pushing" << std::endl;
-				object_center_dists.push_back( group_dist/(grouped_previous+1) );
-				object_center_angls.push_back( group_angl/(grouped_previous+1) );
+				// add random dropout of points (~95% detection rate)
+				if ( ((rand() % 100) + 1) < 95){
+					//std::cout << "End of object detected, pushing" << std::endl;
+					object_center_dists.push_back( group_dist/(grouped_previous+1) );
+					object_center_angls.push_back( group_angl/(grouped_previous+1) );
+				}
 				grouped_previous = 0;
 				group_dist = 0;
 				group_angl = 0;
