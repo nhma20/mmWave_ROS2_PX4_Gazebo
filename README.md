@@ -108,7 +108,7 @@ chmod +x ./QGroundControl.AppImage
    ```
    
 ### Install Gazebo HCA worlds/models (optional)
-https://nextcloud.sdu.dk/index.php/f/154139296
+https://nextcloud.sdu.dk/index.php/f/154156432
 ```sh
 cd /home/nm/Downloads/Drones4Energy_SDU_Only_code-iROS2021-Tools-simulationAssets/Tools/simulationAssets/
 ./installAssets.sh ~/PX4-Autopilot/
