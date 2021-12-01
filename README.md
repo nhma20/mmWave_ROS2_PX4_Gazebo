@@ -225,8 +225,9 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 ### MISC
 1. Trajectory setpoint message:
    https://github.com/PX4/px4_msgs/blob/ros2/msg/TrajectorySetpoint.msg
-2. Disabled param:
+2. Changed parameters (to fix "Failsafe enabled: No manual control stick input" warning and not taking off):
    pxh> param set NAV_RCL_ACT 0
+   pxh> param set COM_RCL_EXCEPT 4
 
    NAV_RCL_ACT: curr: 2 -> new: 0
 3. Local positioning?
