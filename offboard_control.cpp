@@ -109,7 +109,7 @@ public:
 				
 				if(sensorMsgsCallbacksSamePrev == 10){
 					RCLCPP_INFO(this->get_logger(),  "Connection to control publisher lost, landing..");
-					publish_vehicle_command(VehicleCommand::VEHICLE_CMD_NAV_LAND); 
+					this->publish_vehicle_command(VehicleCommand::VEHICLE_CMD_NAV_LAND); 
 				}
 				sensorMsgsCallbacksPrev = sensorMsgsCallbacks;
 			}
