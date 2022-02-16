@@ -260,6 +260,7 @@ Fixed by renaming closest libfastrtps.so.x.y.z to libfastrtps.so.2.0.2.
 20. If drone enters failsafe when starting offboard_control, ```param set COM_RCL_EXCEPT 4``` in the PX4 console may solve this. Else, try manually publish few setpoints to fmu/manual_control_setpoint/in and then start offboard mode.
 21. Showing videos in readme: Just drag and drop your image/video from your local pc to github readme in editable mode.
 22. If gradle not working, might have to downgrade Java (JDK) to 11: https://askubuntu.com/questions/1133216/downgrading-java-11-to-java-8
+23. May have to set unused non-velocity parameters to NAN in TrajectorySetpoint message: https://discuss.px4.io/t/offboard-control-using-ros2-how-to-achieve-velocity-control/21875
 
 
 
