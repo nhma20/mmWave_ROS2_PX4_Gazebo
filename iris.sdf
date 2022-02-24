@@ -68,16 +68,26 @@
           </scan>
           <range>
             <min>0.1</min>
-            <max>10.0</max>
+            <max>15.0</max>
+            <resolution>0.01</resolution>
           </range>
+          <!-- No noise, add later in ROS -->
+          <noise>
+        	<type>gaussian</type>
+        	<mean>0.0</mean>
+        	<stddev>0.00</stddev>
+      	  </noise>
         </ray>
+        <!-- Not in migration guide -->
         <always_on>true</always_on>
+        <!-- Not in migration guide -->
         <visualize>true</visualize>
         <update_rate>50.0</update_rate>
         <plugin name="laser" filename="libgazebo_ros_ray_sensor.so">
+          <!-- Change namespace and output topic so published topic is /dist_sensor/laser_scan -->
           <ros>
             <namespace>/dist_sensor</namespace>
-            <remapping>~/out:=laser_scan</remapping>
+            <argument>~/out:=laser_scan</argument>
           </ros>
           <output_type>sensor_msgs/LaserScan</output_type>
         </plugin>

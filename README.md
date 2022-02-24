@@ -37,6 +37,10 @@ curl -sSL http://get.gazebosim.org | sh
 ```sh
 sudo apt install ros-foxy-gazebo-ros-pkgs
 ```
+Install gazebo ROS2 package:
+```sh
+sudo apt install ros-foxy-gazebo-ros-pkgs
+```
 
 ### Install PX4 (ROS2, RTPS, SITL, Gazebo)
 https://docs.px4.io/master/en/ros/ros2_comm.html
@@ -291,6 +295,7 @@ Fixed by renaming closest libfastrtps.so.x.y.z to libfastrtps.so.2.0.2.
 ![Alt text](https://github.com/nhma20/mmWave_ROS2_PX4_Gazebo/blob/main/Pictures/Screenshot_from_2021-07-06_09-54-53.png?raw=true)
 
 https://user-images.githubusercontent.com/76950970/142616665-0cb08003-9355-4eed-a658-7d900c9f66fb.mp4
+
 
 
 
