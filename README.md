@@ -32,6 +32,7 @@ Aborted (core dumped)
 - _PX4-Autopilot_: `d7a962b4269d3ca3d2dcae44da7a37177af1d8cd`
 - _px4_ros_com_: `90538d841a383fe9631b7046096f9aa808a43121`
 - _px4_msgs_: `7f89976091235579633935b7ccaab68b2debbe19`
+
 Then, run the following script from _PX4-Autopilot_:
 ```
 cd <path-to-PX4-Autopilot>/msg/tools/
