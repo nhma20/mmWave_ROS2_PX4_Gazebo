@@ -6,8 +6,8 @@ Tested with:
 - Ubuntu 20.04.3 LTS
 - ROS2 Foxy
 - Gazebo 11.9.0
-- px4_ros_com 29th Nov
-- PX4 Autopilot v1.12.3
+- px4_ros_com master branch 18th October 2022
+- PX4 Autopilot master branch 18th October 2022
 
 
 ### Install ROS2
@@ -111,20 +111,15 @@ chmod +x ./QGroundControl.AppImage
 ./QGroundControl.AppImage  (or double click)
    ```
    
-### Install Gazebo HCA worlds/models (optional)
-https://nextcloud.sdu.dk/index.php/f/154156432
-```sh
-cd /home/nm/Downloads/Drones4Energy_SDU_Only_code-iROS2021-Tools-simulationAssets/Tools/simulationAssets/
-./installAssets.sh ~/PX4-Autopilot/
-```
- 
 ### Install repository files
-(overwrites existing files)
+Oververwrites existing files. Will also download and install worlds and models from:
+https://drive.google.com/file/d/1E_mqESbcPkey0WdFN4FGY6YHcDVfKkJ-/view
+
 ```sh
 cd ~/mmWave_ROS2_PX4_Gazebo/
 chmod +x ./install.sh
 ```
-Execute install script (from the script directory). If same PX4 and px4_ros_com_ros2 roots:
+Execute install script (from the script directory). If PX4 and px4_ros_com_ros2 installed in home directory:
 ```
 ./install.sh ~/PX4-Autopilot/ ~/px4_ros_com_ros2/
 ```
