@@ -22,10 +22,10 @@ cp -f $CWD/cmake/sitl_target.cmake $PX4FIRMDIR/platforms/posix/cmake/
 
 if [ ! -d "$CWD/hca_models_and_worlds" ] 
 then
-	echo "downloading models and worlds from: https://drive.google.com/file/d/1E_mqESbcPkey0WdFN4FGY6YHcDVfKkJ-"
+	echo "downloading models and worlds from: https://drive.google.com/file/d/1mqL6CPEd5GOK2gtuCNvOiPhDQ3f8qfzR"
 	# this is fragile, will probably break at some point
-	# direct link is: https://drive.google.com/file/d/1E_mqESbcPkey0WdFN4FGY6YHcDVfKkJ-
-	fileid="1E_mqESbcPkey0WdFN4FGY6YHcDVfKkJ-"
+	# direct link is: https://drive.google.com/file/d/1mqL6CPEd5GOK2gtuCNvOiPhDQ3f8qfzR
+	fileid="1mqL6CPEd5GOK2gtuCNvOiPhDQ3f8qfzR"
 	filename="hca_models_and_worlds.zip"
 	html=`curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=${fileid}"`
 	curl -Lb ./cookie "https://drive.google.com/uc?export=download&`echo ${html}|grep -Po '(confirm=[a-zA-Z0-9\-_]+)'`&id=${fileid}" -o ${filename}
@@ -43,10 +43,12 @@ then
 	cp -f -r $CWD/hca_models_and_worlds/models/* $PX4FIRMDIR/Tools/simulation/gazebo/sitl_gazebo/models/ -v
 	echo "installing worlds.."
 	cp -f -r $CWD/hca_models_and_worlds/worlds/* $PX4FIRMDIR/Tools/simulation/gazebo/sitl_gazebo/worlds/ -v
+	cp -f -r $CWD/hca_models_and_worlds/new_iris/* $PX4FIRMDIR/Tools/simulation/gazebo/sitl_gazebo/models/iris/ -v
 	cp -f $CWD/cmake/sitl_targets_gazebo.cmake $PX4FIRMDIR/src/modules/simulation/simulator_mavlink/
 else
 	echo "installing models.."
 	cp -f -r $CWD/hca_models_and_worlds/models/* $PX4FIRMDIR/Tools/sitl_gazebo/models/
+	cp -f -r $CWD/hca_models_and_worlds/old_iris/* $PX4FIRMDIR/Tools/sitl_gazebo/models/iris/
 	echo "installing worlds.."
 	cp -f -r $CWD/hca_models_and_worlds/worlds/* $PX4FIRMDIR/Tools/sitl_gazebo/worlds/
 fi
