@@ -61,8 +61,8 @@ cp -f $CWD/src/img_proj_depth.py $PX4ROSDIR/src/px4_ros_com/src/examples/offboar
 cp -f $CWD/src/img_3d_to_2d_proj.cpp $PX4ROSDIR/src/px4_ros_com/src/examples/offboard/
 cp -f $CWD/src/lidar_to_mmwave.cpp $PX4ROSDIR/src/px4_ros_com/src/examples/offboard/
 
-#echo "building px4_ros_com_ros2.."
-#cd $PX4ROSDIR/src/px4_ros_com/scripts/
-#./build_ros2_workspace.bash
+echo "building px4_ros_com_ros2.."
+cd $PX4ROSDIR/src/px4_ros_com/scripts/
+./build_ros2_workspace.bash
 
 echo "done"
