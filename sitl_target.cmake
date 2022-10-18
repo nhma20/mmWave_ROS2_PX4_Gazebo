@@ -198,7 +198,7 @@ set(worlds
 	d4e_hca_airport
 	d4e_HCAairport
 	hca_full_pylon_setup
-	hca_full_setu
+	hca_full_setup
 )
 
 set(all_posix_vmd_make_targets)
