@@ -7,6 +7,7 @@ Tested with:
 - ROS2 Foxy
 - Gazebo 11.9.0
 - px4_ros_com master branch 18th October 2022
+- px4_msgs master branch 18th October 2022
 - PX4 Autopilot master branch 18th October 2022
 
 
@@ -112,8 +113,8 @@ chmod +x ./QGroundControl.AppImage
    ```
    
 ### Install repository files
-Oververwrites existing files. Will also download and install worlds and models from:
-https://drive.google.com/file/d/1E_mqESbcPkey0WdFN4FGY6YHcDVfKkJ-/view
+Oververwrites existing files. Will also download and install powerline test setup worlds and models from:
+https://drive.google.com/file/d/1mqL6CPEd5GOK2gtuCNvOiPhDQ3f8qfzR
 
 ```sh
 cd ~/mmWave_ROS2_PX4_Gazebo/
@@ -132,10 +133,6 @@ Execute install script (from the script directory). If PX4 and px4_ros_com_ros2 
    ```
    ```sh
    make px4_sitl_rtps gazebo_iris__hca_full_pylon_setup
-   ```
-   or, for single cable:
-    ```sh
-   make px4_sitl_rtps gazebo_iris__d4e_HCAairport
    ```
    or, for empty world (if no additional worlds/models installed):
    ```sh
