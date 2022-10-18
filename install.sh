@@ -19,24 +19,12 @@ echo "installing CMake files.."
 cp -f $CWD/CMakeLists.txt $PX4ROSDIR/src/px4_ros_com/
 cp -f $CWD/sitl_target.cmake $PX4FIRMDIR/platforms/posix/cmake/
 
+echo "installing Iris model.."
+cp -f $CWD/iris.sdf $PX4FIRMDIR/Tools/sitl_gazebo/models/iris/
 
-# check where simulation directory is, support old and new location
-if [ ! -d "$PX4FIRMDIR/Tools/sitl_gazebo" ] 
-then
-	echo "installing Iris model.."
-	cp -f $CWD/iris.sdf $PX4FIRMDIR/Tools/simulation/gazebo/sitl_gazebo/models/iris/
-	echo "installing HCA Airport world.."
-	cp -f $CWD/hca_full_setup.world $PX4FIRMDIR/Tools/simulation/gazebo/sitl_gazebo/worlds/
-	cp -f $CWD/d4e_HCAairport.world $PX4FIRMDIR/Tools/simulation/gazebo/sitl_gazebo/worlds/
-	cp -f $CWD/sitl_targets_gazebo.cmake $PX4FIRMDIR/src/modules/simulation/simulator_mavlink/
-else
-	echo "installing Iris model.."
-	cp -f $CWD/iris.sdf $PX4FIRMDIR/Tools/sitl_gazebo/models/iris/
-	echo "installing HCA Airport world.."
-	cp -f $CWD/hca_full_setup.world $PX4FIRMDIR/Tools/sitl_gazebo/worlds/
-	cp -f $CWD/d4e_HCAairport.world $PX4FIRMDIR/Tools/sitl_gazebo/worlds/
-fi
-
+echo "installing HCA Airport world.."
+cp -f $CWD/hca_full_setup.world $PX4FIRMDIR/Tools/sitl_gazebo/worlds/
+cp -f $CWD/d4e_HCAairport.world $PX4FIRMDIR/Tools/sitl_gazebo/worlds/
 
 echo "installing Code files.."
 cp -f $CWD/offboard_control.cpp $PX4ROSDIR/src/px4_ros_com/src/examples/offboard/
