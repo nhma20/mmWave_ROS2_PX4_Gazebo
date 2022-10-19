@@ -9,7 +9,8 @@ Tested with:
 - px4_ros_com commit 90538d841a383fe9631b7046096f9aa808a43121
 - px4_msgs commit 7f89976091235579633935b7ccaab68b2debbe19
 - PX4 Autopilot commit d7a962b4269d3ca3d2dcae44da7a37177af1d8cd
-Specific commits from: https://github.com/nhma20/mmWave_ROS2_PX4_Gazebo/pull/1/commits/3ad006353495266432122e5ec3f595899fedeb08
+
+Specific commits from pull request #1
 
 
 ### Install ROS2
