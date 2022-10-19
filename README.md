@@ -1,14 +1,51 @@
 # mmWave_ROS2_PX4_Gazebo
 Simulate mmWave radar based drone control in Gazebo with ROS2 and PX4
 
+### Changelog
+- 15/08/2022, frnyb: Some issues arises related to version compatibility, fixes suggested
+
 ### Prerequisites
 Tested with:
 - Ubuntu 20.04.3 LTS
 - ROS2 Foxy
 - Gazebo 11.9.0
-- px4_ros_com 29th Nov
-- PX4 Autopilot v1.12.3
+- px4_ros_com 29th Nov - deprecated, see next section
+- PX4 Autopilot v1.12.3 - deprecated, see next section
+- px4_ros_com commit 90538d841a383fe9631b7046096f9aa808a43121 (master branch at the time of writing)
+- px4_msgs commit 7f89976091235579633935b7ccaab68b2debbe19 (master branch at the time of writing)
+- PX4-Autopilot commit d7a962b4269d3ca3d2dcae44da7a37177af1d8cd (main branch at the time of writing)
 
+### Version compatibility
+Some users might have issues with versioning. Essentially, these issues are related to the Fast-DDS version and the PX4 message type version. Both types of issues will result in either no ROS2 topics being published to by the micrortps_agent while running the Gazebo simulation, or simply the micrortps_agent crashing with the message:
+
+```
+terminate called after throwing an instance of 'eprosima::fastcdr::exception::BadParamException'
+  what():  Unexpected byte value in Cdr::deserialize(bool), expected 0 or 1
+Aborted (core dumped)
+```
+
+**Issue/fix 1:** Do not install Fast-DDS when using ROS Foxy, as it ships in the package _ros-foxy-fastrtps_. Installing it will result in two different Fast-DDS versions being installed. However, this is only the case for ROS Foxy; for later ROS2 versions, Fast-DDS must be installed seperately as has previously been described in this guide. This information is also given in the [PX4-ROS2 guide](https://docs.px4.io/main/en/ros/ros2_comm.html). See [this](https://discuss.px4.io/t/no-sensor-sensor-data-received-using-micrortps-client-agent-and-ros2/18756/3) discussion.
+
+**Issue/fix 2:** A FastRTPS bridge ships with the _px4_ros_com_ ROS package, which interprets the data received from the PX4 firmware and interfaces with the respective ROS topics. This FastRTPS bridge needs to be compatible with the system installation of Fast-DDS (obtained from the ROS2 Foxy installation as previously described). When building the PX4 firmware on the computer, it will depend on the system installation of Fast-DDS, so if **Issue/fix 1** has been considered, this should be automatic. However, not all _px4_ros_com_ FastRTPS versions are compatible with the ROS2 Foxy version of Fast-DDS. It has been found that the `90538d841a383fe9631b7046096f9aa808a43121` commit of the _px4_ros_com_ repo works.
+
+**Issue/fix 3:** The PX4 message declarations need to match between _PX4-Autopilot_, _px4_ros_com_, and _px4_msgs_ (mostly putting constraints on the two latter repos to match with the major releases of the former repo). This is a major hurdle as the definitions are frequently updated! Additionally, there is some constraints between the Fast-DDS versions as to which values can be stored in certain data-types in the message, leading to the above error message yielded from _micrortps_agent_. This is not fully understood, but has found to be an issue with the latest release of _PX4-Autopilot_ (v1.13.0). A fix has been obtained from [here](https://discuss.px4.io/t/issues-running-ros2-px4/28400/6) and [here](https://github.com/PX4/px4_msgs/tree/master#how-are-these-messsage-definitions-generated). Use the following commits:
+- _PX4-Autopilot_: `d7a962b4269d3ca3d2dcae44da7a37177af1d8cd`
+- _px4_ros_com_: `90538d841a383fe9631b7046096f9aa808a43121`
+- _px4_msgs_: `7f89976091235579633935b7ccaab68b2debbe19`
+
+Then, run the following script from _PX4-Autopilot_:
+```
+cd <path-to-PX4-Autopilot>/msg/tools/
+./uorb_to_ros_msgs.py <path-to-PX4-Autopilot>/msg/ <path-to-ros2-workspace>/src/px4_msgs/msg/
+```
+Then rebuild ROS2 workspace:
+```
+cd <path-to-ros2-workspace>
+colcon build
+```
+Now everything should work.
+
+There is an [open issue](https://github.com/PX4/px4_ros_com/issues/143) for adding release tags to _px4_ros_com_ to support different releases of _PX4-Autopilot_ and maybe this will become more streamlined in the future.
 
 ### Install ROS2
 https://docs.ros.org/en/foxy/Installation.html or https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html
