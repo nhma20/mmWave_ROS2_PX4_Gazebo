@@ -22,10 +22,10 @@ cp -f $CWD/cmake/sitl_target.cmake $PX4FIRMDIR/platforms/posix/cmake/
 
 if [ ! -d "$CWD/hca_models_and_worlds" ] 
 then
-	echo "downloading models and worlds from: https://drive.google.com/file/d/1fe4J8eM5u7MvtayruwMDewYuuZDvQ5bX"
+	echo "downloading models and worlds from: https://drive.google.com/file/d/1wMf4hJXjVBkhR41Do0fGaT0t_GC8mKW_"
 	# this is fragile, will probably break at some point
-	# direct link is: https://drive.google.com/file/d/1fe4J8eM5u7MvtayruwMDewYuuZDvQ5bX
-	fileid="1fe4J8eM5u7MvtayruwMDewYuuZDvQ5bX"
+	# direct link is: https://drive.google.com/file/d/1wMf4hJXjVBkhR41Do0fGaT0t_GC8mKW_
+	fileid="1wMf4hJXjVBkhR41Do0fGaT0t_GC8mKW_"
 	filename="hca_models_and_worlds.zip"
 	html=`curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=${fileid}"`
 	curl -Lb ./cookie "https://drive.google.com/uc?export=download&`echo ${html}|grep -Po '(confirm=[a-zA-Z0-9\-_]+)'`&id=${fileid}" -o ${filename}
