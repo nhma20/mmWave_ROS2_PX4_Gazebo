@@ -6,9 +6,10 @@ Tested with:
 - Ubuntu 20.04.3 LTS
 - ROS2 Foxy
 - Gazebo 11.9.0
-- px4_ros_com master branch 18th October 2022
-- px4_msgs master branch 18th October 2022
-- PX4 Autopilot master branch 18th October 2022
+- px4_ros_com commit 90538d841a383fe9631b7046096f9aa808a43121
+- px4_msgs commit 7f89976091235579633935b7ccaab68b2debbe19
+- PX4 Autopilot commit d7a962b4269d3ca3d2dcae44da7a37177af1d8cd
+Specific commits from: https://github.com/nhma20/mmWave_ROS2_PX4_Gazebo/pull/1/commits/3ad006353495266432122e5ec3f595899fedeb08
 
 
 ### Install ROS2
@@ -76,25 +77,32 @@ git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git -b v1.0.4 ~/F
 - Download PX4 Source code and run ```ubuntu.sh``` with no arguments:
 ```sh
 cd ~
-git clone https://github.com/PX4/PX4-Autopilot.git --recursive
-bash ./PX4-Autopilot/Tools/setup/ubuntu.sh
+git clone -n https://github.com/PX4/PX4-Autopilot.git --recursive
+cd PX4-Autopilot/
+git checkout d7a962b4269d3ca3d2dcae44da7a37177af1d8cd
+bash ./Tools/setup/ubuntu.sh
 ```
 - Relogin or reboot computer before attempting to build NuttX targets
-- Build ROS 2 Workspace
+- Setup ROS 2 Workspace
 ```sh
 cd ~
 mkdir -p ~/px4_ros_com_ros2/src
 ```
-- Clone ROS 2 bridge packages ```px4_ros_com``` ```px4_msgs``` (default master branch)
+- Clone ROS 2 bridge packages ```px4_ros_com``` ```px4_msgs```
 ```sh
-cd ~
-git clone https://github.com/PX4/px4_ros_com.git ~/px4_ros_com_ros2/src/px4_ros_com
-git clone https://github.com/PX4/px4_msgs.git ~/px4_ros_com_ros2/src/px4_msgs
+~/px4_ros_com_ros2/src
+git clone -n https://github.com/PX4/px4_ros_com.git
+cd px4_ros_com/
+git checkout 90538d841a383fe9631b7046096f9aa808a43121
+cd ..
+git clone -n https://github.com/PX4/px4_msgs.git
+cd px4_msgs/
+git checkout 7f89976091235579633935b7ccaab68b2debbe19
 ```
-- Use script to build workspace including two aforementioned packages:
+- Update uorb message definitions:
 ```sh
-cd ~/px4_ros_com_ros2/src/px4_ros_com/scripts
-./build_ros2_workspace.bash
+cd ~/PX4-Autopilot/msg/tools/
+./uorb_to_ros_msgs.py ~/PX4-Autopilot/msg/ ~/px4_ros_com_ros2/src/px4_msg/msg/
 ```
 
 
@@ -113,7 +121,7 @@ chmod +x ./QGroundControl.AppImage
    ```
    
 ### Install repository files
-Oververwrites existing files. Will also download and install powerline test setup worlds and models from:
+Builds ROS2 workspace and downloads and installs powerline test setup worlds and models from:
 https://drive.google.com/file/d/1mqL6CPEd5GOK2gtuCNvOiPhDQ3f8qfzR
 
 ```sh
