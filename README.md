@@ -78,9 +78,10 @@ git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git -b v1.0.4 ~/F
 - Download PX4 Source code and run ```ubuntu.sh``` with no arguments:
 ```sh
 cd ~
-git clone -n https://github.com/PX4/PX4-Autopilot.git --recursive
+git clone -n https://github.com/PX4/PX4-Autopilot.git
 cd PX4-Autopilot/
 git checkout d7a962b4269d3ca3d2dcae44da7a37177af1d8cd
+git submodule update --init --recursive
 bash ./Tools/setup/ubuntu.sh
 ```
 - Relogin or reboot computer before attempting to build NuttX targets
