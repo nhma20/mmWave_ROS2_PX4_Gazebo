@@ -103,7 +103,7 @@ git checkout 7f89976091235579633935b7ccaab68b2debbe19
 - Update uorb message definitions:
 ```sh
 cd ~/PX4-Autopilot/msg/tools/
-./uorb_to_ros_msgs.py ~/PX4-Autopilot/msg/ ~/px4_ros_com_ros2/src/px4_msg/msg/
+./uorb_to_ros_msgs.py ~/PX4-Autopilot/msg/ ~/px4_ros_com_ros2/src/px4_msgs/msg/
 ```
 
 
