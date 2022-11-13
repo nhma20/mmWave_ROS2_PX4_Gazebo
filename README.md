@@ -238,10 +238,12 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    NAV_RCL_ACT: curr: 2 -> new: 0
 3. Local positioning?
    https://github.com/PX4/px4_msgs/blob/ros2/msg/VehicleLocalPositionSetpoint.msg
+   No, calculate positions in drone frame and transform to world frame.
    
 4. Add any new ROS2 files to ~/px4_ros_com_ros2/src/px4_ros_com/CMakeLists.txt
 
 5. Check if drone armed? https://github.com/PX4/px4_msgs/blob/ros2/msg/ActuatorArmed.msg
+   No, subscribe to `/fmu/vehicle_status/out` topic and monitor `arming_state`.
 
 6. libignition-common3 error (after software update?) - Copy existing file and rename to match missing file
 7. If gazebo does not open, try running ```gazebo --verbose``` to troubleshoot. ```killall gzserver``` should kill any gazebo instances. Restart PC if all else fails.
@@ -256,7 +258,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    source ~/px4_ros_com_ros2/install/setup.bash
    ros2 run image_tools showimage image:=/cable_camera/image_raw
    ```
-14. Add new worlds/models to ~/PX4-Autopilot/platforms/posix/cmake/sitl_target.cmake (Oscar's worlds/models from https://gitlab.drones4energy.dk/obs/Drones4Energy_SDU_Only_code/-/tree/iROS2021/Tools/simulationAssets)
+14. Add new worlds/models to ~/PX4-Autopilot/platforms/posix/cmake/sitl_target.cmake
 15. See local packages, and msgs, with: ```ros2 interface packages``` and e.g. ```ros2 interface package px4_msgs```
 16. Camera intrinsic parameters for setting a custom perspective projection matrix (cannot be used with WideAngleCamera since this class uses image stitching from 6 different cameras for achieving a wide field of view). The focal lengths can be computed using focal_length_in_pixels = (image_width_in_pixels * 0.5) / tan(field_of_view_in_degrees * 0.5 * PI/180) (http://sdformat.org/spec?ver=1.7&elem=sensor#lens_intrinsics)
 17. Drone spawn coordinates set in ~/PX4-Autopilot/Tools/sitl_run.sh ?
