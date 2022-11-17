@@ -229,6 +229,7 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
 
 
 ### MISC
+0. General tips on PX4+Gazebo simulation (e.g. wind, vehicle spawn location): https://docs.px4.io/main/en/simulation/gazebo.html
 1. Trajectory setpoint message:
    https://github.com/PX4/px4_msgs/blob/ros2/msg/TrajectorySetpoint.msg
 2. Changed parameters (to fix "Failsafe enabled: No manual control stick input" warning and not taking off):
