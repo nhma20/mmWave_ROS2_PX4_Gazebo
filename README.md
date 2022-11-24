@@ -108,7 +108,7 @@ cd ~/PX4-Autopilot/msg/tools/
 ```
 - Run the ```px4_ros_com``` ROS2 workspace build script in verbose mode to catch any errors:
 ```sh
-cd ~/px4_ros_com_ros2/
+cd ~/px4_ros_com_ros2/src/px4_ros_com/scripts/
 ./build_ros2_workspace.bash --verbose
 ```
 (I had a python import error (pyros-genmsg) that did not show without the --verbose tag)
