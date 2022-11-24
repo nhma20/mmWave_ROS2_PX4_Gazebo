@@ -106,7 +106,12 @@ git checkout 7f89976091235579633935b7ccaab68b2debbe19
 cd ~/PX4-Autopilot/msg/tools/
 ./uorb_to_ros_msgs.py ~/PX4-Autopilot/msg/ ~/px4_ros_com_ros2/src/px4_msgs/msg/
 ```
-
+- Run the ```px4_ros_com``` ROS2 workspace build script in verbose mode to catch any errors:
+```sh
+cd ~/px4_ros_com_ros2/
+./build_ros2_workspace.bash --verbose
+```
+(I had a python import error (pyros-genmsg) that did not show without the --verbose tag)
 
 ### Install QGroundControl
 https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.html#ubuntu
