@@ -128,8 +128,8 @@ chmod +x ./QGroundControl.AppImage
    ```
    
 ### Install repository files
-Builds ROS2 workspace and downloads and installs powerline test setup worlds and models from:
-https://drive.google.com/file/d/1wMf4hJXjVBkhR41Do0fGaT0t_GC8mKW_
+The script builds ROS2 workspace and downloads and installs powerline test setup worlds and models from:
+`https://drive.google.com/file/d/1wMf4hJXjVBkhR41Do0fGaT0t_GC8mKW_`. If downloading within the script fails, download from this link manually and install files where the script would.
 
 ```sh
 cd ~/mmWave_ROS2_PX4_Gazebo/
