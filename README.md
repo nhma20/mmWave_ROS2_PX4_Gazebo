@@ -233,6 +233,29 @@ https://github.com/PX4/px4_ros_com/blob/master/src/examples/offboard/offboard_co
    ```
 
 
+### Adding wind to the simulation
+To enhance the realism of the simuation, it is possible to add wind to the virtual environment. This is simply done by adding and customizing the wind plugin in the .world file. Below is an example which can be added in the `hca_full_pylon_setup.world` file which will introduce a mean wind of 3m/s, a max wind velocity of 6m/s, and a typical wind direction along the y-axis:
+
+```sh
+	<plugin name='wind_plugin' filename='libgazebo_wind_plugin.so'>
+      <frameId>base_link</frameId>
+      <robotNamespace/>
+      <windVelocityMean>3.0</windVelocityMean>
+      <windVelocityMax>6.0</windVelocityMax>
+      <windVelocityVariance>0.25</windVelocityVariance>
+      <windDirectionMean>0 1 0</windDirectionMean>
+      <windDirectionVariance>0.25</windDirectionVariance>
+      <windGustStart>0</windGustStart>
+      <windGustDuration>0</windGustDuration>
+      <windGustVelocityMean>0</windGustVelocityMean>
+      <windGustVelocityMax>20.0</windGustVelocityMax>
+      <windGustVelocityVariance>0</windGustVelocityVariance>
+      <windGustDirectionMean>1 0 0</windGustDirectionMean>
+      <windGustDirectionVariance>0</windGustDirectionVariance>
+      <windPubTopic>world_wind</windPubTopic>
+    </plugin>
+```
+
 ### MISC
 0. General tips on PX4+Gazebo simulation (e.g. wind, vehicle spawn location): https://docs.px4.io/main/en/simulation/gazebo.html
 1. Trajectory setpoint message:
