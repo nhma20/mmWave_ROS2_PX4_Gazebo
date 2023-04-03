@@ -298,6 +298,7 @@ Fixed by renaming closest libfastrtps.so.x.y.z to libfastrtps.so.2.0.2.
 21. Showing videos in readme: Just drag and drop your image/video from your local pc to github readme in editable mode.
 22. If gradle not working, might have to downgrade Java (JDK) to 11: https://askubuntu.com/questions/1133216/downgrading-java-11-to-java-8
 23. May have to set unused non-velocity parameters to NAN in TrajectorySetpoint message: https://discuss.px4.io/t/offboard-control-using-ros2-how-to-achieve-velocity-control/21875
+24. Customize GPS noise within .sdf of vehicle model in the gps_plugin section. E.g. gpsXYRandomWalk of 0.02 and gpsZRandomWalk of 0.04 if simulating RTK accuracy.
 
 
 
